@@ -21,7 +21,7 @@
                     <div class="header-top-link">
                         <ul class="quick-link">
                             <li><a href="#">Help</a></li>
-                            <li><a href="#">Join Us</a></li>
+                            <li><a th:href="@{/register}">Join Us</a></li>
                             <li><a th:href="@{/signin}">Sign In</a></li>
                         </ul>
                     </div>
@@ -35,10 +35,10 @@
         <div class="container">
             <div class="header-navbar">
                 <div class="header-brand">
-                    <a th:href="@{/}" class="logo logo-dark">
+                    <a href="#" class="logo logo-dark">
                         <img src="assets/images/logo/logo.png" alt="Site Logo">
                     </a>
-                    <a href="index.html" class="logo logo-light">
+                    <a href="#" class="logo logo-light">
                         <img src="assets/images/logo/logo-light.png" alt="Site Logo">
                     </a>
                 </div>
@@ -47,8 +47,8 @@
                     <nav class="mainmenu-nav">
                         <button class="mobile-close-btn mobile-nav-toggler"><i class="fas fa-times"></i></button>
                         <div class="mobile-nav-brand">
-                            <a href="index.html" class="logo">
-                                <img src="assets/images/logo/logo.png" alt="Site Logo">
+                            <a href="#" class="logo">
+                                <img src="#" alt="Site Logo">
                             </a>
                         </div>
                         <ul class="mainmenu">
@@ -58,24 +58,18 @@
                             <li class="menu-item-has-children">
                                 <a th:href="@{/shop}">Shop</a>
                             </li>
-                            <li><a th:href="@{/}">About</a></li>
+                            <li><a href="#">About</a></li>
                             <li class="menu-item-has-children">
-                                <a th:href="@{/posts}">Post</a>
+                                <a th:href="@{/posts}">Posts</a>
                             </li>
-                            <li><a th:href="@{/}">Contact</a></li>
+                            <li><a href="#">Contact</a></li>
                         </ul>
                     </nav>
                     <!-- End Mainmanu Nav -->
                 </div>
                 <div class="header-action">
                     <ul class="action-list">
-                        <li class="axil-search d-xl-block d-none">
-                            <input type="search" class="placeholder product-search-input" name="search2" id="search2" value="" maxlength="128" placeholder="What are you looking for?" autocomplete="off">
-                            <button type="submit" class="icon wooc-btn-search">
-                                <i class="flaticon-magnifying-glass"></i>
-                            </button>
-                        </li>
-                        <li class="axil-search d-xl-none d-block">
+                        <li class="axil-search">
                             <a href="javascript:void(0)" class="header-search-icon" title="Search">
                                 <i class="flaticon-magnifying-glass"></i>
                             </a>
@@ -87,7 +81,7 @@
                         </li>
                         <li class="shopping-cart">
                             <a href="#" class="cart-dropdown-btn">
-                                <span class="cart-count">3</span>
+                                <span class="cart-count">1</span>
                                 <i class="flaticon-shopping-cart"></i>
                             </a>
                         </li>
@@ -97,9 +91,9 @@
                             </a>
                             <div class="my-account-dropdown">
                                 <span class="title">QUICKLINKS</span>
-                                <ul>
+                                <ul th:unless="${userDtls == null}">
                                     <li>
-                                        <a href="my-account.html">My Account</a>
+                                        <a th:href="@{/my-account}">My Account</a>
                                     </li>
                                     <li>
                                         <a href="#">Initiate return</a>
@@ -111,7 +105,12 @@
                                         <a href="#">Language</a>
                                     </li>
                                 </ul>
-                                <a href="sign-in.html" class="axil-btn btn-bg-primary">Login</a>
+                                <div class="login-btn" th:if="${userDtls == null}">
+                                    <a th:href="@{/signin}" class="axil-btn btn-bg-primary">Đăng nhập</a>
+                                </div>
+                                <div class="login-btn" th:unless="${userDtls == null}">
+                                    <a th:href="@{/logout}" class="axil-btn btn-bg-primary">Đăng xuất</a>
+                                </div>
                                 <div class="reg-footer text-center">No account yet? <a href="sign-up.html" class="btn-link">REGISTER HERE.</a></div>
                             </div>
                         </li>
@@ -133,12 +132,12 @@
                     <div class="header-campaign-activation axil-slick-arrow arrow-both-side header-campaign-arrow">
                         <div class="slick-slide">
                             <div class="campaign-content">
-                                <p>STUDENT NOW GET 10% OFF : <a href="#">GET OFFER</a></p>
+                                <p>ƯU ĐÃI 10% DÀNH CHO HỌC SINH SINH VIÊN : <a th:href="@{/shop}">NHẬN ƯU ĐÃI NGAY</a></p>
                             </div>
                         </div>
                         <div class="slick-slide">
                             <div class="campaign-content">
-                                <p>STUDENT NOW GET 10% OFF : <a href="#">GET OFFER</a></p>
+                                <p>ƯU ĐÃI 10% DÀNH CHO HỌC SINH SINH VIÊN : <a th:href="@{/shop}">NHẬN ƯU ĐÃI NGAY</a></p>
                             </div>
                         </div>
                     </div>

@@ -1,11 +1,8 @@
-# Chọn image Java
-FROM openjdk:17-jdk-slim
+FROM maven:3-eclipse-temurin-17-focal AS build
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Thư mục làm việc trong container
-WORKDIR /app
-
-# Sao chép file JAR vào container
-COPY target/your-app.jar app.jar
-
-# Lệnh để chạy ứng dụng Spring Boot
-ENTRYPOINT ["java", "-jar", "app.jar"]
+FROM eclipse-temurin:17-alpine
+COPY --from=build /target/*.jar demo.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","demo.jar"]

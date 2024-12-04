@@ -15,13 +15,16 @@
     <link rel="stylesheet" th:href="@{/user/css/style.min.css}">
 </head>
 <body>
-<!---Header--->
 <div th:replace="/user/fragments/header :: header"></div>
-<!--End Header---->
-<!--Cart Drop Down--->
-<div th:replace="/user/fragments/cart_dropdown :: cart_dropdown"></div>
+
 <!-- Thay thế nội dung với layout chính -->
 <div th:replace="${content}"></div>
+    <!-- Start Axil Newsletter Area  -->
+
+<div th:replace="/user/fragments/news_letter :: news_letter"></div>
+    <!-- End Axil Newsletter Area  -->
+<!--Cart Drop Down--->
+<div th:replace="/user/fragments/cart_dropdown :: cart_dropdown"></div>
 
 <!--Service-->
 <div th:replace="/user/fragments/services :: services"></div>
@@ -31,7 +34,35 @@
 <div th:replace="/user/fragments/footer :: footer"></div>
 <!---End Footer--->
 
+<!-- JS
+============================================ -->
 <!-- Modernizer JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const myAccount = document.querySelector('.my-account > a');
+        if (myAccount) {
+        myAccount.addEventListener('click', () => {
+        alert('Dropdown kích hoạt thành công!');
+    });
+    } else {
+        console.log('Không tìm thấy phần tử .my-account > a');
+    }
+    });
+        document.addEventListener('DOMContentLoaded', () => {
+            const myAccount = document.querySelector('.my-account');
+            const dropdown = document.querySelector('.my-account-dropdown');
+
+            if (myAccount && dropdown) {
+                myAccount.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                    console.log("Dropdown đã bật");  // Kiểm tra console log
+                });
+            }
+        });
+
+    </script>
+
 <script th:src="@{/user/js/vendor/modernizr.min.js}"></script>
 <!-- jQuery JS -->
 <script th:src="@{/user/js/vendor/jquery.js}"></script>

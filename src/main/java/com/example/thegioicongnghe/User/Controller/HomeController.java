@@ -107,7 +107,7 @@ public class HomeController {
         int reviewCount = reviews.size();
 
         // Lấy danh sách User
-        List <UserDtls> user = userService.findAll();
+        List<UserDtls> user = userService.findAll();
         model.addAttribute("user", user);
 
         // Tính trung bình rating (nếu có đánh giá)
@@ -132,7 +132,6 @@ public class HomeController {
         model.addAttribute("metaTitle", product.getMetaTitle()); // Thêm meta_title vào model
         model.addAttribute("metaDescription", product.getMetaDescription()); // Thêm meta_description vào model
 
-
         // Dropdown giỏ hàng
         UserDtls users = getLoggedInUserDetails(p);
         List<CartItem> carts = cartService.getCartsByUser(users.getId());
@@ -145,6 +144,8 @@ public class HomeController {
 
         model.addAttribute("content", "user/fragments/single-product"); // Thêm dòng này
         return "layouts/main_layout"; // Trả về layout với nội dung
+
+        // model.addAttribute("content", "user/fragments/single-product"); // Thêm dòng này
     }
 
     @GetMapping("/posts") // Trang chi tiết sản phẩm
@@ -236,7 +237,6 @@ public class HomeController {
         model.addAttribute("products", products);
         model.addAttribute("keyword", keyword);
 
-
         // Dropdown giỏ hàng
         UserDtls user = getLoggedInUserDetails(p);
         List<CartItem> carts = cartService.getCartsByUser(user.getId());
@@ -250,6 +250,7 @@ public class HomeController {
         model.addAttribute("content", "user/shop"); // Thêm dòng này
         return "layouts/main_layout"; // Trả về layout với nội dung
     }
+
     private UserDtls getLoggedInUserDetails(Principal p) {
         String email = p.getName();
         UserDtls userDtls = userService.getUserByEmail(email);
@@ -293,7 +294,6 @@ public class HomeController {
 
     @GetMapping("/cart")
     public String loadCartPage(Principal p, Model m) {
-
         UserDtls user = getLoggedInUserDetails(p);
         List<CartItem> carts = cartService.getCartsByUser(user.getId());
         m.addAttribute("carts", carts);
@@ -301,7 +301,6 @@ public class HomeController {
             Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
             m.addAttribute("totalOrderPrice", totalOrderPrice);
         }
-
         m.addAttribute("content", "user/cart"); // Thêm dòng này
         return "layouts/main_layout"; // Trả về layout với nội dung
     }
