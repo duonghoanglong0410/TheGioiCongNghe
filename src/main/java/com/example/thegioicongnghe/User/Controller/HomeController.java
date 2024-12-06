@@ -28,11 +28,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Controller("userHomeController")  // Chỉ định HomeController là Controller
-@RequestMapping("/")  // Chỉ định HomeController là Controller
+//@RequestMapping("/")  // Chỉ định HomeController là Controller
 public class HomeController {
     @Autowired
     private ProductCategoryService productCategoryService;
@@ -63,54 +64,96 @@ public class HomeController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // Chuyển hướng người dùng đến trang chủ khi truy cập vào /
+
+
     // Khi user truy cập vào endpoint / thì homepage() được gọi
     @GetMapping("/")
     public String homepage(Model model, Principal p) {
 
+        // Lấy các sản phẩm và danh mục
         List<ProductCategory> categories = productCategoryService.findAll();
-
         List<Product> products = productService.findAll();
-
         List<Product> latestProducts = productService.getLatestProducts(); // lấy ra 10 sản phẩm mới nhất
+
         model.addAttribute("latestProducts", latestProducts);
+        model.addAttribute("products", products); // Hiển thị sản phẩm
+        model.addAttribute("categories", categories); // Hiển thị danh mục
 
-        model.addAttribute("products", products); // hiển thị sản phẩm
-        model.addAttribute("categories", categories); // hiển thị danh sách danh mục
+        // Kiểm tra nếu người dùng đã đăng nhập (p != null)
+        if (p != null) {
+            // Nếu đã đăng nhập, lấy thông tin người dùng và giỏ hàng
+            UserDtls user = getLoggedInUserDetails(p);
+            List<CartItem> carts = cartService.getCartsByUser(user.getId());
+            model.addAttribute("carts", carts);
 
-        // Dropdown giỏ hàng
-        UserDtls user = getLoggedInUserDetails(p);
-        List<CartItem> carts = cartService.getCartsByUser(user.getId());
-        model.addAttribute("carts", carts);
-        if (carts.size() > 0) {
-            Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
-            model.addAttribute("totalOrderPrice", totalOrderPrice);
+            if (!carts.isEmpty()) {
+                Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
+                model.addAttribute("totalOrderPrice", totalOrderPrice);
+            }
+
+            // Đếm số lượng sản phẩm trong giỏ hàng
+            int cartItemCount = cartService.countCartByUser(user.getId());
+            model.addAttribute("cartItemCount", cartItemCount); // Thêm vào model
+
+        } else {
+            // Nếu chưa đăng nhập, giỏ hàng trống và giá trị mặc định
+            model.addAttribute("carts", new ArrayList<>());
+            model.addAttribute("totalOrderPrice", 0.0);
+            model.addAttribute("cartItemCount", 0); // Thêm vào model số lượng sản phẩm là 0
         }
-        model.addAttribute("content", "user/fragments/cart_dropdown"); // Thêm dòng này
 
-        model.addAttribute("content", "user/fragments/explore_product"); // truyền dữ liệu vào view
-        model.addAttribute("content", "user/fragments/categories"); // Thêm dòng này
-        return "user/index"; // Trả về layout với nội dung
+        // Truyền các phần khác vào model
+        model.addAttribute("content", "user/fragments/explore_product");
+        model.addAttribute("content", "user/fragments/categories");
+
+        return "user/index"; // Trả về layout với các nội dung
     }
 
 
-    @GetMapping("/product-detail/{productSlug}") // Trang chi tiết sản phẩm
-    public String showProductDetail(@PathVariable String productSlug ,Principal p, Model model) {
+
+    @GetMapping("/shop")
+    public String shopPage(Model model, Principal p) {
+        List<Product> allProducts = productService.findAll();
+        model.addAttribute("allProducts", allProducts);
+
+        List<ProductCategory> allCategory = productCategoryService.findAll();
+        model.addAttribute("allCategory", allCategory);
+
+        if (p != null) { // Kiểm tra nếu người dùng đã đăng nhập
+            UserDtls user = getLoggedInUserDetails(p);
+            List<CartItem> carts = cartService.getCartsByUser(user.getId());
+            model.addAttribute("carts", carts);
+            if (!carts.isEmpty()) {
+                Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
+                model.addAttribute("totalOrderPrice", totalOrderPrice);
+            }
+        } else {
+            model.addAttribute("carts", new ArrayList<>());
+            model.addAttribute("totalOrderPrice", 0.0);
+        }
+
+        model.addAttribute("content", "user/fragments/cart_dropdown");
+        model.addAttribute("content", "user/shop");
+
+        return "layouts/main_layout";
+    }
+
+    @GetMapping("/product-detail/{productSlug}")
+    public String showProductDetail(@PathVariable String productSlug, Principal p, Model model) {
+        // Lấy thông tin sản phẩm từ slug
         Product product = productService.findProductBySlug(productSlug);
         model.addAttribute("product", product);
 
+        // Lấy danh mục sản phẩm
         List<ProductCategory> categories = productCategoryService.findAll();
-        model.addAttribute("categories", categories); // hiển thị danh sách danh mục
+        model.addAttribute("categories", categories);
 
         // Lấy danh sách review từ cơ sở dữ liệu
         List<ProductReview> reviews = productReviewService.getReviewsByProductId(product.getProductId());
-        // Đếm số lượng review
         int reviewCount = reviews.size();
 
-        // Lấy danh sách User
-        List<UserDtls> user = userService.findAll();
-        model.addAttribute("user", user);
-
-        // Tính trung bình rating (nếu có đánh giá)
+        // Tính toán trung bình rating
         double averageRating = 0;
         if (!reviews.isEmpty()) {
             double totalRating = reviews.stream().mapToInt(ProductReview::getRating).sum();
@@ -118,117 +161,107 @@ public class HomeController {
         }
 
         // Tìm đánh giá của người dùng hiện tại
-        ProductReview userReview = reviews.stream()
-                .filter(review -> review.getUser().equals(user))
-                .findFirst()
-                .orElse(null);
-
-        // Thêm vào model để truyền sang view
-        model.addAttribute("reviews", reviews);
-        model.addAttribute("reviewCount", reviewCount); // Thêm số lượng review vào model
-        model.addAttribute("userReview", userReview);
-        model.addAttribute("averageRating", averageRating); // Thêm trung bình rating vào model
-        //Tối ưu SEO
-        model.addAttribute("metaTitle", product.getMetaTitle()); // Thêm meta_title vào model
-        model.addAttribute("metaDescription", product.getMetaDescription()); // Thêm meta_description vào model
-
-        // Dropdown giỏ hàng
-        UserDtls users = getLoggedInUserDetails(p);
-        List<CartItem> carts = cartService.getCartsByUser(users.getId());
-        model.addAttribute("carts", carts);
-        if (carts.size() > 0) {
-            Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
-            model.addAttribute("totalOrderPrice", totalOrderPrice);
+        ProductReview userReview = null;
+        if (p != null) { // Kiểm tra nếu người dùng đã đăng nhập
+            UserDtls user = getLoggedInUserDetails(p);
+            userReview = reviews.stream()
+                    .filter(review -> review.getUser().equals(user))
+                    .findFirst()
+                    .orElse(null);
         }
-        model.addAttribute("content", "user/fragments/cart_dropdown"); // Thêm dòng này
 
-        model.addAttribute("content", "user/fragments/single-product"); // Thêm dòng này
-        return "layouts/main_layout"; // Trả về layout với nội dung
+        // Thêm vào model
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("reviewCount", reviewCount);
+        model.addAttribute("userReview", userReview);
+        model.addAttribute("averageRating", averageRating);
 
-        // model.addAttribute("content", "user/fragments/single-product"); // Thêm dòng này
+        // Tối ưu SEO
+        model.addAttribute("metaTitle", product.getMetaTitle());
+        model.addAttribute("metaDescription", product.getMetaDescription());
+
+        // Giỏ hàng
+        if (p != null) {
+            UserDtls users = getLoggedInUserDetails(p);
+            List<CartItem> carts = cartService.getCartsByUser(users.getId());
+            model.addAttribute("carts", carts);
+            if (!carts.isEmpty()) {
+                Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
+                model.addAttribute("totalOrderPrice", totalOrderPrice);
+            }
+        } else {
+            model.addAttribute("carts", new ArrayList<>());
+            model.addAttribute("totalOrderPrice", 0.0);
+        }
+
+        model.addAttribute("content", "user/fragments/cart_dropdown");
+        model.addAttribute("content", "user/fragments/single-product");
+
+        return "layouts/main_layout";
     }
 
-    @GetMapping("/posts") // Trang chi tiết sản phẩm
-    public String postPage(Model model, Principal p) {
 
+    @GetMapping("/posts")
+    public String postPage(Model model, Principal p) {
         List<BlogPost> posts = postService.findAll();
         model.addAttribute("posts", posts);
 
-        List<BlogPost> latestPosts = postService.getLatestBlogPosts(); // Lấy ra 3 posts mới nhất
+        List<BlogPost> latestPosts = postService.getLatestBlogPosts();
         model.addAttribute("latestPosts", latestPosts);
 
-        // Thêm tiêu đề trang
         model.addAttribute("pageTitle", "Danh sách bài viết - TheGioiCongNghe.vn");
 
-        // Dropdown giỏ hàng
-        UserDtls user = getLoggedInUserDetails(p);
-        List<CartItem> carts = cartService.getCartsByUser(user.getId());
-        model.addAttribute("carts", carts);
-        if (carts.size() > 0) {
-            Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
-            model.addAttribute("totalOrderPrice", totalOrderPrice);
+        if (p != null) { // Kiểm tra nếu người dùng đã đăng nhập
+            UserDtls user = getLoggedInUserDetails(p);
+            List<CartItem> carts = cartService.getCartsByUser(user.getId());
+            model.addAttribute("carts", carts);
+            if (!carts.isEmpty()) {
+                Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
+                model.addAttribute("totalOrderPrice", totalOrderPrice);
+            }
+        } else {
+            model.addAttribute("carts", new ArrayList<>());
+            model.addAttribute("totalOrderPrice", 0.0);
         }
-        model.addAttribute("content", "user/fragments/cart_dropdown"); // Thêm dòng này
 
-        model.addAttribute("content", "user/post"); // Thêm dòng này
-        return "layouts/main_layout"; // Trả về layout với nội dung
+        model.addAttribute("content", "user/fragments/cart_dropdown");
+        model.addAttribute("content", "user/post");
+
+        return "layouts/main_layout";
     }
 
+
     @GetMapping("/post-details/{slug}")
-    public String showPostsDetail(@PathVariable String slug,  Model model, Principal p) {
-
+    public String showPostsDetail(@PathVariable String slug, Model model, Principal p) {
         BlogPost post = postService.findPostBySlug(slug);
-
-        // Kiểm tra slug để đảm bảo URL chính xác
         if (post == null || !post.getSlug().equals(slug)) {
-            return "redirect:/404"; // Điều hướng đến trang lỗi 404 nếu không khớp
+            return "redirect:/404"; // Điều hướng tới trang lỗi 404 nếu không tìm thấy bài viết
         }
 
         model.addAttribute("post", post);
-
-        List<BlogPost> latestPosts = postService.getLatestBlogPosts(); // Lấy ra 3 posts mới nhất
+        List<BlogPost> latestPosts = postService.getLatestBlogPosts();
         model.addAttribute("latestPosts", latestPosts);
-        //Tối ưu SEO
-        model.addAttribute("metaTitle", post.getMetaTitle()); // Thêm meta_title vào model
-        model.addAttribute("metaDescription", post.getMetaDescription()); // Thêm meta_description vào model
 
-        // Dropdown giỏ hàng
-        UserDtls user = getLoggedInUserDetails(p);
-        List<CartItem> carts = cartService.getCartsByUser(user.getId());
-        model.addAttribute("carts", carts);
-        if (carts.size() > 0) {
-            Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
-            model.addAttribute("totalOrderPrice", totalOrderPrice);
+        model.addAttribute("metaTitle", post.getMetaTitle());
+        model.addAttribute("metaDescription", post.getMetaDescription());
+
+        if (p != null) { // Kiểm tra nếu người dùng đã đăng nhập
+            UserDtls user = getLoggedInUserDetails(p);
+            List<CartItem> carts = cartService.getCartsByUser(user.getId());
+            model.addAttribute("carts", carts);
+            if (!carts.isEmpty()) {
+                Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
+                model.addAttribute("totalOrderPrice", totalOrderPrice);
+            }
+        } else {
+            model.addAttribute("carts", new ArrayList<>());
+            model.addAttribute("totalOrderPrice", 0.0);
         }
-        model.addAttribute("content", "user/fragments/cart_dropdown"); // Thêm dòng này
 
-        model.addAttribute("content", "user/single-post"); // Thêm dòng này
-        return "layouts/main_layout"; // Trả về layout với nội dung
-    }
+        model.addAttribute("content", "user/fragments/cart_dropdown");
+        model.addAttribute("content", "user/single-post");
 
-    @GetMapping("/shop") // Trang chi tiết sản phẩm
-    public String shopPage(Model model, Principal p) {
-
-        //Lấy và hiển thị danh sách sản phẩm
-        List<Product> allProducts = productService.findAll();
-        model.addAttribute("allProducts", allProducts);
-
-        //Lấy và hiển thị danh sách danh mục sản phẩm
-        List<ProductCategory> allCategory = productCategoryService.findAll();
-        model.addAttribute("allCategory", allCategory);
-
-        // Dropdown giỏ hàng
-        UserDtls user = getLoggedInUserDetails(p);
-        List<CartItem> carts = cartService.getCartsByUser(user.getId());
-        model.addAttribute("carts", carts);
-        if (carts.size() > 0) {
-            Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
-            model.addAttribute("totalOrderPrice", totalOrderPrice);
-        }
-        model.addAttribute("content", "user/fragments/cart_dropdown"); // Thêm dòng này
-
-        model.addAttribute("content", "user/shop"); // Thêm dòng này
-        return "layouts/main_layout"; // Trả về layout với nội dung
+        return "layouts/main_layout";
     }
 
     @GetMapping("/search")
@@ -259,11 +292,15 @@ public class HomeController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/add-to-cart")
-    public String addToCart(@RequestParam Integer pid, HttpSession session, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+    public String addToCart(@RequestParam Integer pid, HttpSession session, Model model, Authentication authentication) {
+        // Kiểm tra nếu người dùng chưa đăng nhập
+        if (authentication == null || !authentication.isAuthenticated()) {
+            // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+            return "redirect:/signin";  // Chuyển hướng đến trang login
+        }
 
-        // Lấy userId từ CustomUserDetails
+        // Người dùng đã đăng nhập, tiếp tục xử lý thêm sản phẩm vào giỏ hàng
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         int userId = userDetails.getUserId();
 
         // Thực hiện thêm sản phẩm vào giỏ hàng
@@ -275,8 +312,10 @@ public class HomeController {
             session.setAttribute("succMsg", "Product added to cart");
         }
 
-        return "user/shop";
+        // Trả về cùng một trang, không chuyển hướng
+        return "redirect:/"; // Trả về trang shop
     }
+
 
     @GetMapping("/cart-review")
     public String loadCartReviewPage(Principal p, Model m) {
@@ -401,7 +440,7 @@ public class HomeController {
         // 6. Xóa giỏ hàng
         cartService.clearCart(user.getId());
 
-        return "redirect:/order-success";
+        return "/order-success";
     }
 
     @PostMapping("/save-product-rating")

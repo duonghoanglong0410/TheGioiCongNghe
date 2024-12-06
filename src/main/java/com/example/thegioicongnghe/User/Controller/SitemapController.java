@@ -1,50 +1,118 @@
 package com.example.thegioicongnghe.User.Controller;
 
+import com.example.thegioicongnghe.Admin.Model.BlogPost;
 import com.example.thegioicongnghe.Admin.Model.Product;
-import com.example.thegioicongnghe.Admin.Repository.ProductRepository;
+import com.example.thegioicongnghe.Admin.Service.PostService;
+import com.example.thegioicongnghe.Admin.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/sitemap")
 public class SitemapController {
 
     @Autowired
-    private ProductRepository productRepository;  // Giả sử bạn có một repository để truy vấn sản phẩm
+    private ProductService productService;
 
-    @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<String> generateSitemap() {
-        List<Product> products = productRepository.findAll();  // Lấy danh sách sản phẩm từ cơ sở dữ liệu
+    @Autowired
+    private PostService postService;
 
-        StringBuilder sitemap = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    // Đặt lịch để tạo sitemap mỗi ngày vào lúc 00h00 (mỗi đêm)
+    @Scheduled(cron = "0 0 0 * * ?") // Mỗi ngày lúc 00:00 (12:00 AM)
+    @GetMapping("/generate-sitemap")
+    public String generateSitemap() throws IOException {
+        // Lấy tất cả các sản phẩm và bài viết từ database
+        List<Product> products = productService.findAll();
+        List<BlogPost> posts = postService.findAll();
+
+        // Tạo sitemap
+        StringBuilder sitemap = new StringBuilder();
+        sitemap.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         sitemap.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
 
-        // Thêm trang chủ
-        sitemap.append("<url>\n")
-                .append("<loc>").append("https://example.com/").append("</loc>\n")
-                .append("<lastmod>").append(java.time.LocalDate.now()).append("</lastmod>\n")
-                .append("<changefreq>daily</changefreq>\n")
-                .append("<priority>1.0</priority>\n")
-                .append("</url>\n");
+        // Thêm trang chủ vào sitemap
+        sitemap.append("<url>\n");
+        sitemap.append("<loc>https://www.yourwebsite.com/</loc>\n");
+        sitemap.append("<lastmod>2024-12-07</lastmod>\n");  // Update lastmod tùy theo thời gian cập nhật
+        sitemap.append("<priority>1.00</priority>\n");
+        sitemap.append("</url>\n");
 
-        // Thêm các sản phẩm vào sitemap
+        // Thêm URL của sản phẩm vào sitemap
         for (Product product : products) {
-            sitemap.append("<url>\n")
-                    .append("<loc>").append("https://example.com/products/").append(product.getProductSlug()).append("</loc>\n")
-                    .append("<lastmod>").append(java.time.LocalDate.now()).append("</lastmod>\n")
-                    .append("<changefreq>weekly</changefreq>\n")
-                    .append("<priority>0.8</priority>\n")
-                    .append("</url>\n");
+            sitemap.append("<url>\n");
+            sitemap.append("<loc>https://www.yourwebsite.com/product-detail/" + product.getProductSlug() + "</loc>\n");
+            sitemap.append("<lastmod>" + product.getCreatedAt() + "</lastmod>\n");
+            sitemap.append("<priority>0.80</priority>\n");
+            sitemap.append("</url>\n");
         }
+
+        // Thêm URL của bài viết vào sitemap
+        for (BlogPost post : posts) {
+            sitemap.append("<url>\n");
+            sitemap.append("<loc>https://www.yourwebsite.com/post-details/" + post.getSlug() + "</loc>\n");
+            sitemap.append("<lastmod>" + post.getUpdatedAt() + "</lastmod>\n");
+            sitemap.append("<priority>0.70</priority>\n");
+            sitemap.append("</url>\n");
+        }
+
+        // Thêm các trang phụ khác vào sitemap
+        sitemap.append("<url>\n");
+        sitemap.append("<loc>https://www.yourwebsite.com/shop</loc>\n");
+        sitemap.append("<lastmod>2024-12-07</lastmod>\n");
+        sitemap.append("<priority>0.90</priority>\n");
+        sitemap.append("</url>\n");
+
+        sitemap.append("<url>\n");
+        sitemap.append("<loc>https://www.yourwebsite.com/cart</loc>\n");
+        sitemap.append("<lastmod>2024-12-07</lastmod>\n");
+        sitemap.append("<priority>0.80</priority>\n");
+        sitemap.append("</url>\n");
+
+        sitemap.append("<url>\n");
+        sitemap.append("<loc>https://www.yourwebsite.com/checkout</loc>\n");
+        sitemap.append("<lastmod>2024-12-07</lastmod>\n");
+        sitemap.append("<priority>0.80</priority>\n");
+        sitemap.append("</url>\n");
+
+        sitemap.append("<url>\n");
+        sitemap.append("<loc>https://www.yourwebsite.com/register</loc>\n");
+        sitemap.append("<lastmod>2024-12-07</lastmod>\n");
+        sitemap.append("<priority>0.60</priority>\n");
+        sitemap.append("</url>\n");
+
+        sitemap.append("<url>\n");
+        sitemap.append("<loc>https://www.yourwebsite.com/signin</loc>\n");
+        sitemap.append("<lastmod>2024-12-07</lastmod>\n");
+        sitemap.append("<priority>0.60</priority>\n");
+        sitemap.append("</url>\n");
+
+        // Thêm trang giỏ hàng và thông báo thành công
+        sitemap.append("<url>\n");
+        sitemap.append("<loc>https://www.yourwebsite.com/cart-review</loc>\n");
+        sitemap.append("<lastmod>2024-12-07</lastmod>\n");
+        sitemap.append("<priority>0.80</priority>\n");
+        sitemap.append("</url>\n");
+
+        sitemap.append("<url>\n");
+        sitemap.append("<loc>https://www.yourwebsite.com/404</loc>\n");
+        sitemap.append("<lastmod>2024-12-07</lastmod>\n");
+        sitemap.append("<priority>0.50</priority>\n");
+        sitemap.append("</url>\n");
 
         sitemap.append("</urlset>");
 
-        return ResponseEntity.ok(sitemap.toString());
+        // Lưu sitemap vào file
+        File file = new File("sitemap.xml");
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write(sitemap.toString());
+        }
+        System.out.println("Sitemap saved at: " + file.getAbsolutePath());
+        return "/sitemap-success";  // Đảm bảo bạn có template hoặc một URL dẫn đến trang thành công
     }
 }

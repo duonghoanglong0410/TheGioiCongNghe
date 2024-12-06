@@ -28,15 +28,6 @@
 
 
 </head>
-
-<script>
-    window.onload = function () {
-        const message = /*[[${session.welcomeMessage}]]*/ '';
-        if (message) {
-            alert(message); // Hiển thị thông báo dạng alert
-        }
-    };
-</script>
 <div>
     <!--[if lte IE 9]>
 
@@ -138,7 +129,7 @@
                             </li>
                             <li class="shopping-cart">
                                 <a href="#" class="cart-dropdown-btn">
-                                    <span class="cart-count">1</span>
+                                    <span class="cart-count" th:text="${cartItemCount}"></span>
                                     <i class="flaticon-shopping-cart"></i>
                                 </a>
                             </li>
@@ -284,7 +275,6 @@
                                                     <a th:href="@{'/add-to-cart?pid=' + ${product.productId}}"
                                                        class="btn btn-danger col-md-12">Add To Cart</a>
                                                 </th:block>
-
                                             </li>
                                             <li class="wishlist"><a href="#"><i class="far fa-heart"></i></a></li>
                                         </ul>
@@ -418,7 +408,6 @@
 <!-- Offer Modal Start -->
 <div th:replace="/user/fragments/offer_modal_start :: offer_modal_start"></div>
 <!-- Offer Modal End -->
-
 <!-- JS
 ============================================ -->
 <!-- Modernizer JS -->

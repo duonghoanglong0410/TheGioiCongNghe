@@ -43,20 +43,29 @@ public class SecurityConfig {
 	}
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable())
-				.cors(cors -> cors.disable())
+		http.csrf(csrf -> csrf.disable()) // Tắt CSRF nếu không cần bảo vệ CSRF
+				.cors(cors -> cors.disable()) // Nếu có yêu cầu CORS, tắt nó đi
 				.authorizeHttpRequests(req -> req
-						.anyRequest().permitAll() // Cho phép tất cả request không cần kiểm tra
+						.requestMatchers("/**", "/shop", "/signin", "/login", "/posts/**", "/post/**").permitAll() // Cho phép tất cả request như trang chủ, sản phẩm, bài viết mà không cần đăng nhập
+						.requestMatchers("/admin/**").hasRole("ADMIN")
+						// Cho phép tài nguyên tĩnh (CSS, JS, images) mà không cần đăng nhập
+						.requestMatchers("/user/css/**", "/user/js/**", "/user/images/**", "/user/fonts/**").permitAll()
+						.requestMatchers("/cart/**", "/checkout/**", "/payment/**").authenticated() // Chỉ cho phép truy cập các trang giỏ hàng, thanh toán khi đăng nhập
+						.anyRequest().authenticated() // Các request khác đều phải đăng nhập
 				)
 				.formLogin(form -> form
-						.loginPage("/signin") // Đường dẫn tới trang đăng nhập (nếu cần)
-						.loginProcessingUrl("/login") // Xử lý logic đăng nhập
+						.loginPage("/signin") // Trang đăng nhập của bạn
+						.loginProcessingUrl("/login") // Xử lý đăng nhập
+						.defaultSuccessUrl("/", true) // Sau khi đăng nhập, chuyển hướng về trang chủ
 						.failureHandler(authenticationFailureHandler)
 						.successHandler(authenticationSuccessHandler)
 				)
-				.logout(logout -> logout.permitAll()); // Cho phép logout không hạn chế
+				.logout(logout -> logout.permitAll()); // Cho phép logout không cần xác thực
+
 		return http.build();
 	}
+
+
 
 	/*
 	@Bean

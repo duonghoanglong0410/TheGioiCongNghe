@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface CartService {
 
+    int countCartByUser(Integer userId);
+
     public CartItem saveCart(Integer productId, Integer userId);
 
     public List<CartItem> getCartsByUser(Integer userId);
@@ -15,4 +17,5 @@ public interface CartService {
     public void updateQuantity(String sy, Integer cid);
 
     public Integer clearCart(Integer userId);
+
 }

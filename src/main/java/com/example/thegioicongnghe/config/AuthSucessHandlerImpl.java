@@ -33,7 +33,7 @@ public class AuthSucessHandlerImpl implements AuthenticationSuccessHandler {
 
 		// Điều hướng dựa trên vai trò
 		if (roles.contains("ROLE_ADMIN")) {
-			response.sendRedirect("/admin/");
+			response.sendRedirect("/admin/products/list");
 		} else {
 			response.sendRedirect("/");
 		}

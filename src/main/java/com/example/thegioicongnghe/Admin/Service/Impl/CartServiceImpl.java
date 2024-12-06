@@ -38,6 +38,10 @@ public class CartServiceImpl implements CartService {
     public Optional<CartItem> findByProductId(Integer productId, Integer userId) {
         return cartRepository.findById(productId);
     }
+    @Override
+    public int countCartByUser(Integer userId) {
+        return cartRepository.countByUserId(userId); // Đếm số lượng sản phẩm trong giỏ hàng
+    }
 
     public List<CartItem> findAll() {
         return cartRepository.findAll();
