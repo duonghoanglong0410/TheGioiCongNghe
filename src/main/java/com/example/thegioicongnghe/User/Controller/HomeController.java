@@ -58,13 +58,7 @@ public class HomeController {
 
     @Autowired
     private ProductReviewService productReviewService;
-    @Autowired
-    private SecurityConfig securityConfig;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    // Chuyển hướng người dùng đến trang chủ khi truy cập vào /
 
 
     // Khi user truy cập vào endpoint / thì homepage() được gọi
@@ -79,6 +73,7 @@ public class HomeController {
         model.addAttribute("latestProducts", latestProducts);
         model.addAttribute("products", products); // Hiển thị sản phẩm
         model.addAttribute("categories", categories); // Hiển thị danh mục
+
 
         // Kiểm tra nếu người dùng đã đăng nhập (p != null)
         if (p != null) {
@@ -103,6 +98,7 @@ public class HomeController {
             model.addAttribute("cartItemCount", 0); // Thêm vào model số lượng sản phẩm là 0
         }
 
+
         // Truyền các phần khác vào model
         model.addAttribute("content", "user/fragments/explore_product");
         model.addAttribute("content", "user/fragments/categories");
@@ -120,17 +116,30 @@ public class HomeController {
         List<ProductCategory> allCategory = productCategoryService.findAll();
         model.addAttribute("allCategory", allCategory);
 
-        if (p != null) { // Kiểm tra nếu người dùng đã đăng nhập
+        model.addAttribute("metaTitle", "Danh sách sản phẩm - TheGioiCongNghe.vn");
+
+
+// Kiểm tra nếu người dùng đã đăng nhập (p != null)
+        if (p != null) {
+            // Nếu đã đăng nhập, lấy thông tin người dùng và giỏ hàng
             UserDtls user = getLoggedInUserDetails(p);
             List<CartItem> carts = cartService.getCartsByUser(user.getId());
             model.addAttribute("carts", carts);
+
             if (!carts.isEmpty()) {
                 Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
                 model.addAttribute("totalOrderPrice", totalOrderPrice);
             }
+
+            // Đếm số lượng sản phẩm trong giỏ hàng
+            int cartItemCount = cartService.countCartByUser(user.getId());
+            model.addAttribute("cartItemCount", cartItemCount); // Thêm vào model
+
         } else {
+            // Nếu chưa đăng nhập, giỏ hàng trống và giá trị mặc định
             model.addAttribute("carts", new ArrayList<>());
             model.addAttribute("totalOrderPrice", 0.0);
+            model.addAttribute("cartItemCount", 0); // Thêm vào model số lượng sản phẩm là 0
         }
 
         model.addAttribute("content", "user/fragments/cart_dropdown");
@@ -179,20 +188,31 @@ public class HomeController {
         // Tối ưu SEO
         model.addAttribute("metaTitle", product.getMetaTitle());
         model.addAttribute("metaDescription", product.getMetaDescription());
+        model.addAttribute("keywords", product.getKeywords());
 
-        // Giỏ hàng
+        // Kiểm tra nếu người dùng đã đăng nhập (p != null)
         if (p != null) {
-            UserDtls users = getLoggedInUserDetails(p);
-            List<CartItem> carts = cartService.getCartsByUser(users.getId());
+            // Nếu đã đăng nhập, lấy thông tin người dùng và giỏ hàng
+            UserDtls user = getLoggedInUserDetails(p);
+            List<CartItem> carts = cartService.getCartsByUser(user.getId());
             model.addAttribute("carts", carts);
+
             if (!carts.isEmpty()) {
                 Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
                 model.addAttribute("totalOrderPrice", totalOrderPrice);
             }
+
+            // Đếm số lượng sản phẩm trong giỏ hàng
+            int cartItemCount = cartService.countCartByUser(user.getId());
+            model.addAttribute("cartItemCount", cartItemCount); // Thêm vào model
+
         } else {
+            // Nếu chưa đăng nhập, giỏ hàng trống và giá trị mặc định
             model.addAttribute("carts", new ArrayList<>());
             model.addAttribute("totalOrderPrice", 0.0);
+            model.addAttribute("cartItemCount", 0); // Thêm vào model số lượng sản phẩm là 0
         }
+
 
         model.addAttribute("content", "user/fragments/cart_dropdown");
         model.addAttribute("content", "user/fragments/single-product");
@@ -209,20 +229,31 @@ public class HomeController {
         List<BlogPost> latestPosts = postService.getLatestBlogPosts();
         model.addAttribute("latestPosts", latestPosts);
 
-        model.addAttribute("pageTitle", "Danh sách bài viết - TheGioiCongNghe.vn");
+        model.addAttribute("metaTitle", "Danh sách bài viết - TheGioiCongNghe.vn");
 
-        if (p != null) { // Kiểm tra nếu người dùng đã đăng nhập
+        // Kiểm tra nếu người dùng đã đăng nhập (p != null)
+        if (p != null) {
+            // Nếu đã đăng nhập, lấy thông tin người dùng và giỏ hàng
             UserDtls user = getLoggedInUserDetails(p);
             List<CartItem> carts = cartService.getCartsByUser(user.getId());
             model.addAttribute("carts", carts);
+
             if (!carts.isEmpty()) {
                 Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
                 model.addAttribute("totalOrderPrice", totalOrderPrice);
             }
+
+            // Đếm số lượng sản phẩm trong giỏ hàng
+            int cartItemCount = cartService.countCartByUser(user.getId());
+            model.addAttribute("cartItemCount", cartItemCount); // Thêm vào model
+
         } else {
+            // Nếu chưa đăng nhập, giỏ hàng trống và giá trị mặc định
             model.addAttribute("carts", new ArrayList<>());
             model.addAttribute("totalOrderPrice", 0.0);
+            model.addAttribute("cartItemCount", 0); // Thêm vào model số lượng sản phẩm là 0
         }
+
 
         model.addAttribute("content", "user/fragments/cart_dropdown");
         model.addAttribute("content", "user/post");
@@ -245,18 +276,29 @@ public class HomeController {
         model.addAttribute("metaTitle", post.getMetaTitle());
         model.addAttribute("metaDescription", post.getMetaDescription());
 
-        if (p != null) { // Kiểm tra nếu người dùng đã đăng nhập
+        // Kiểm tra nếu người dùng đã đăng nhập (p != null)
+        if (p != null) {
+            // Nếu đã đăng nhập, lấy thông tin người dùng và giỏ hàng
             UserDtls user = getLoggedInUserDetails(p);
             List<CartItem> carts = cartService.getCartsByUser(user.getId());
             model.addAttribute("carts", carts);
+
             if (!carts.isEmpty()) {
                 Double totalOrderPrice = carts.get(carts.size() - 1).getTotalPrice();
                 model.addAttribute("totalOrderPrice", totalOrderPrice);
             }
+
+            // Đếm số lượng sản phẩm trong giỏ hàng
+            int cartItemCount = cartService.countCartByUser(user.getId());
+            model.addAttribute("cartItemCount", cartItemCount); // Thêm vào model
+
         } else {
+            // Nếu chưa đăng nhập, giỏ hàng trống và giá trị mặc định
             model.addAttribute("carts", new ArrayList<>());
             model.addAttribute("totalOrderPrice", 0.0);
+            model.addAttribute("cartItemCount", 0); // Thêm vào model số lượng sản phẩm là 0
         }
+
 
         model.addAttribute("content", "user/fragments/cart_dropdown");
         model.addAttribute("content", "user/single-post");
@@ -290,7 +332,6 @@ public class HomeController {
         return userDtls;
     }
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/add-to-cart")
     public String addToCart(@RequestParam Integer pid, HttpSession session, Model model, Authentication authentication) {
         // Kiểm tra nếu người dùng chưa đăng nhập
@@ -313,7 +354,7 @@ public class HomeController {
         }
 
         // Trả về cùng một trang, không chuyển hướng
-        return "redirect:/"; // Trả về trang shop
+        return "redirect:/shop"; // Trả về trang shop
     }
 
 
@@ -477,7 +518,7 @@ public class HomeController {
         productReviewService.saveReview(review);
 
         // Gửi thông báo hoặc chuyển hướng
-        return "user/shop";
+        return "redirect:/product-detail/" + product.getProductSlug();
     }
 
 

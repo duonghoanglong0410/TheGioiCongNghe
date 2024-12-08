@@ -9,7 +9,7 @@
     <meta name="description" content="TheGioiCongNghe.vn cung cấp laptop, PC, màn hình, điện thoại và linh kiện chính hãng từ các thương hiệu uy tín. Khám phá ngay những sản phẩm công nghệ chất lượng với giá tốt nhất, bảo hành uy tín, dịch vụ hỗ trợ nhanh chóng. Đặt hàng online tiện lợi, giao hàng toàn quốc." />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="/user/images/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{'/user/images/icon-favicon.png'}">
 
     <!-- CSS
     ============================================ -->
@@ -80,15 +80,9 @@
             <div class="container">
                 <div class="header-navbar">
                     <div class="header-brand">
-                        <!--
-                        <a href="index.html" class="logo logo-dark">
-                            <img src="/user/images/logo/logo.png" alt="Site Logo">
+                        <a href="/" class="logo logo-dark">
+                            <img th:src="@{'/user/images/icon-favicon.png'}" alt="Site Logo" width="50px" height="50px">
                         </a>
-                        <a href="index.html" class="logo logo-light">
-                            <img src="/user/images/logo/logo-light.png" alt="Site Logo">
-                        </a>
-                        -->
-                        <p>Logo</p>
                     </div>
                     <div class="header-main-nav">
                         <!-- Start Mainmanu Nav -->
@@ -106,7 +100,7 @@
                                 <li class="menu-item-has-children">
                                     <a th:href="@{/shop}">Shop</a>
                                 </li>
-                                <li><a href="about-us.html">About</a></li>
+                                <li><a href="/">About</a></li>
                                 <li class="menu-item-has-children">
                                     <a th:href="@{/posts}">Posts</a>
                                 </li>
@@ -159,7 +153,7 @@
                                     <div class="login-btn" th:unless="${userDtls == null}">
                                         <a th:href="@{/logout}" class="axil-btn btn-bg-primary">Đăng xuất</a>
                                     </div>
-                                    <div class="reg-footer text-center">No account yet? <a href="sign-up.html" class="btn-link">REGISTER HERE.</a></div>
+                                    <div class="reg-footer text-center">No account yet? <a href="/register" class="btn-link">REGISTER HERE.</a></div>
                                 </div>
                             </li>
                             <li class="axil-mobile-toggle">
@@ -200,7 +194,7 @@
                     <div class="slick-single-layout" th:each="category : ${categories}">
                         <div class="categrie-product" data-sal="zoom-out" data-sal-delay="200" data-sal-duration="500">
                             <a th:href="@{'/categories/' + ${category.categorySlug}}">
-                                <img class="img-fluid" th:src="@{'/category_img/' +${category.icon}}" alt="product categorie">
+                                <img class="img-fluid" th:src="@{'/category_img/' +${category.icon}}" th:alt="${category.categoryName}">
                                 <h6 class="cat-title" th:text="${category.categoryName}"></h6>
                             </a>
                         </div>
@@ -259,9 +253,9 @@
                             <div class="axil-product product-style-one">
                                 <div class="thumbnail">
                                     <a th:href="@{'/product-detail/' + ${product.productSlug}}">
-                                        <img data-sal="zoom-out" data-sal-delay="200" data-sal-duration="800" loading="lazy" class="main-img" th:src="@{'/product_images/main/' +${product.imageUrl}}" alt="Product Images">
+                                        <img data-sal="zoom-out" data-sal-delay="200" data-sal-duration="800" loading="lazy" class="main-img" th:src="@{'/product_images/main/' +${product.imageUrl}}" th:alt="${product.productName}">
                                         <div th:each="image, iter : ${product.images}" th:if="${iter.index == 0}">
-                                            <img class="hover-img" th:src="@{'/product_images/extra/' +${image.imageUrl}}" alt="Product Images">
+                                            <img class="hover-img" th:src="@{'/product_images/extra/' +${image.imageUrl}}" th:alt="${product.productName}">
                                         </div>
                                     </a>
                                     <div class="label-block label-right">
@@ -269,7 +263,7 @@
                                     </div>
                                     <div class="product-hover-action">
                                         <ul class="cart-action">
-                                            <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
+                                            <li class="quickview"><a href="#"><i class="far fa-eye"></i></a></li>
                                             <li class="select-option">
                                                 <th:block th:if="${product.stockQuantity > 0}">
                                                     <a th:href="@{'/add-to-cart?pid=' + ${product.productId}}"
@@ -295,7 +289,6 @@
                                         <h5 class="title" th:text="${product.productName}"><a href="#"></a></h5>
                                         <div class="product-price-variant">
                                             <span class="price current-price" th:text="${product.price}">vnd</span>
-                                            <span class="price old-price">$49.99</span>
                                         </div>
                                     </div>
                                 </div>
@@ -328,8 +321,8 @@
                     <div class="slick-single-layout" th:each="product : ${latestProducts}">
                         <div class="axil-product product-style-two">
                             <div class="thumbnail">
-                                <a href="#">
-                                    <img data-sal="zoom-out" data-sal-delay="200" data-sal-duration="800" loading="lazy" class="main-img" th:src="@{'/product_images/main/' +${product.imageUrl}}" alt="Product Images">
+                                <a th:href="@{'/product-detail/' + ${product.productSlug}}">
+                                    <img data-sal="zoom-out" data-sal-delay="200" data-sal-duration="800" loading="lazy" class="main-img" th:src="@{'/product_images/main/' +${product.imageUrl}}" th:alt="${product.productName}">
                                 </a>
                                 <div class="label-block label-right">
                                     <div class="product-badget">10% OFF</div>
@@ -347,15 +340,16 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <h5 class="title" th:text="${product.productName}"><a href="#"></a></h5>
+
+                                    <h5 class="title" th:text="${product.productName}"><a th:href="@{'/product-detail/' + ${product.productSlug}}">
+                                    </a></h5>
                                     <div class="product-price-variant">
                                         <span class="price current-price" th:text="${product.price}">vnd</span>
-                                        <span class="price current-price">$30</span>
                                     </div>
                                     <div class="product-hover-action">
                                         <ul class="cart-action">
-                                            <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
-                                            <li class="select-option"><a href="#">Add to Cart</a></li>
+                                            <li class=""><a href="#"><i class="far fa-eye"></i></a></li>
+                                            <li class="select-option"><a th:href="@{'/add-to-cart?pid=' + ${product.productId}}">Add to Cart</a></li>
                                             <li class="wishlist"><a href="#"><i class="far fa-heart"></i></a></li>
                                         </ul>
                                     </div>

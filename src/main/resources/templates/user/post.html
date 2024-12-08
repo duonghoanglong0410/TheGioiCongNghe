@@ -49,11 +49,11 @@
                                         </a>
                                     </div>
                                     <div class="content">
-                                        <a th:href="@{'/post-details/' + ${post.postId}}" >
+                                        <a th:href="@{'/post-details/' + ${post.slug}}" >
                                             <h5 class="title" th:text="${post.title}"></h5>
                                         </a>
                                         <div class="read-more-btn">
-                                            <a class="axil-btn right-icon" th:href="@{'/post-details/' + ${post.postId}}">Read More <i class="fal fa-long-arrow-right"></i></a>
+                                            <a class="axil-btn right-icon" th:href="@{'/post-details/' + ${post.slug}}">Read More <i class="fal fa-long-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>

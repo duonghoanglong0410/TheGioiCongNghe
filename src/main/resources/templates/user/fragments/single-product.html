@@ -6,10 +6,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title th:text="${metaTitle}"></title>
     <meta name="robots" content="noindex, follow" />
-    <meta name="description" th:content="${metaDescription}">
-    <meta name="title" th:content="${metaTitle}">
+    <title th:text="${metaTitle}">Default Title</title>
+    <meta name="description" th:content="${metaDescription}" />
+    <meta name="title" th:content="${metaTitle}" />
+    <meta name="keywords" th:content="${keywords}" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
@@ -122,9 +123,6 @@
                         <div class="single-product-content">
                             <div class="inner">
                                 <h2 class="product-title" th:text="${product.productName}"></h2>
-                                <div th:each="categories : ${categories}">
-                                    <h5 class="category-title" th:text="${categories.categoryName}"></h5>
-                                </div>
                                 <span class="price-amount" th:text="${product.price}"></span>
                                 <div class="product-rating">
                                     <div class="star-rating">
@@ -164,13 +162,13 @@
 
                                 <!-- Start Product Action Wrapper  -->
                                 <div class="product-action-wrapper d-flex-center">
-                                    <!-- Start Quentity Action  -->
-                                    <div class="pro-qty"><input type="text" value="1"></div>
+                                    <!-- Start Quentity Action
+                                    <div class="pro-qty"><input type="text" value="1"></div> -->
                                     <!-- End Quentity Action  -->
 
                                     <!-- Start Product Action  -->
                                     <ul class="product-action d-flex-center mb--0">
-                                        <li class="add-to-cart"><a href="#" class="axil-btn btn-bg-primary">Thêm vào giỏ hàng</a></li>
+                                        <li class="add-to-cart"><a th:href="@{'/add-to-cart?pid=' + ${product.productId}}" class="axil-btn btn-bg-primary">Thêm vào giỏ hàng</a></li>
                                         <li class="wishlist"><a href="#" class="axil-btn wishlist-btn"><i class="far fa-heart"></i></a></li>
                                     </ul>
                                     <!-- End Product Action  -->

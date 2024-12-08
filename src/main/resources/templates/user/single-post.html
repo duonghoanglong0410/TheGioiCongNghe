@@ -138,12 +138,12 @@
                             <!-- Start Single Post List  -->
                             <div class="content-blog post-list-view mb--20" th:each="post : ${latestPosts}">
                                 <div class="thumbnail">
-                                    <a th:href="@{'/post-details/' + ${post.postId}}">
+                                    <a th:href="@{'/post-details/' + ${post.slug}}">
                                         <img th:src="@{'/posts_img/' +${post.image}}" alt="Blog Images">
                                     </a>
                                 </div>
                                 <div class="content">
-                                    <a th:href="@{'/post-details/' + ${post.postId}}" >
+                                    <a th:href="@{'/post-details/' + ${post.slug}}" >
                                         <h6 class="title" th:text="${post.title}"></h6>
                                     </a>                                    <div class="axil-post-meta">
                                         <div class="post-meta-content">

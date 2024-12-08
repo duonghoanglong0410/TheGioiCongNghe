@@ -1,5 +1,6 @@
 package com.example.thegioicongnghe.Admin.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Set;
 
@@ -22,15 +23,18 @@ public class ProductCategory {
     private String metaTitle;  // Tiêu đề SEO
     @Column(name = "meta_description")
     private String metaDescription;  // Mô tả SEO
+    @Column(name = "keywords")
+    private String keywords;  // Keyword
 
     @Column(name = "icon")
     private String icon;  // Icon
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_category_id")
+    @JsonIgnore // Để tránh vòng lặp khi trả về JSON
     private ProductCategory parentCategory;  // Danh mục cha
 
-    @OneToMany(mappedBy = "parentCategory")
+    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ProductCategory> subCategories;  // Danh mục con
 
     @OneToMany(mappedBy = "category")
@@ -52,7 +56,13 @@ public class ProductCategory {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
+    public String getKeywords() {
+        return keywords;
+    }
 
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
     public String getCategorySlug() {
         return categorySlug;
     }

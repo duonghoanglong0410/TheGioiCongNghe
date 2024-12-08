@@ -45,6 +45,7 @@ public class CategoryController {
         model.addAttribute("allCategory", allCategory);
 
 
-        return "user/shop"; // Tên file view
-    }
+        model.addAttribute("content", "user/shop");
+
+        return "layouts/main_layout";    }
 }

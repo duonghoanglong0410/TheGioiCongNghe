@@ -32,6 +32,9 @@ public class Product {
     private String metaTitle; // Tiêu đề SEO
     private String metaDescription; // Mô tả SEO
 
+    @Column(name = "keywords")
+    private String keywords;  // Keyword
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private ProductCategory category; // Danh mục của sản phẩm
@@ -74,6 +77,13 @@ public class Product {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
     }
 
     public String getProductSlug() {

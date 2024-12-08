@@ -35,11 +35,8 @@
         <div class="container">
             <div class="header-navbar">
                 <div class="header-brand">
-                    <a href="#" class="logo logo-dark">
-                        <img src="assets/images/logo/logo.png" alt="Site Logo">
-                    </a>
-                    <a href="#" class="logo logo-light">
-                        <img src="assets/images/logo/logo-light.png" alt="Site Logo">
+                    <a href="/" class="logo logo-dark">
+                        <img th:src="@{'/user/images/icon-favicon.png'}" alt="Site Logo" width="50px" height="50px">
                     </a>
                 </div>
                 <div class="header-main-nav">
@@ -81,7 +78,7 @@
                         </li>
                         <li class="shopping-cart">
                             <a href="#" class="cart-dropdown-btn">
-                                <span class="cart-count">1</span>
+                                <span class="cart-count" th:text="${cartItemCount}">0</span>
                                 <i class="flaticon-shopping-cart"></i>
                             </a>
                         </li>
