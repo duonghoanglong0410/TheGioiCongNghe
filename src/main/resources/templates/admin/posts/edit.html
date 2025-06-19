@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý bài viết</title>
+</head>
+<body>
+<div class="page-inner">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Bài viết</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="#">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Danh mục bài viết</a>
+            </li>
+
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+
+            <li class="nav-item">
+                <a href="#">Sửa bài viết</a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Sửa bài viết</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/admin/posts/edit/{id}(id=${posts.postId})}" th:object="${posts}" method="post"
+                          enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label for="title" class="mb-3"><b>Tiêu đề bài viết</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                th:field="*{title}"
+                                                name="title"
+                                                id="title"
+                                                required
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="content" class="mb-3"><b>Nội dung bài viết</b></label>
+                                    <div class="input-group mb-3">
+                                        <textarea
+                                                type="text"
+                                                class="form-control"
+                                                th:field="*{content}"
+                                                name="content"
+                                                id="content"
+                                                required
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label for="image" class="mb-3"><b>Hình ảnh</b></label>
+                                    <div class="mb-3">
+                                        <!-- Hiển thị hình ảnh hiện tại nếu có -->
+                                        <div>
+                                            <img th:if="${posts.image != null}" th:src="@{'/posts_img/' + ${posts.image}}"
+                                                 alt="Current Icon" width="100px" height="100px" />
+                                            <span th:if="${posts.image == null}">Không có hình ảnh</span>
+                                        </div>
+                                        <!-- Input để tải lên hình ảnh mới -->
+                                        <input class="form-control" type="file" id="imageFile" name="imageFile">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="metaTitle" class="mb-3"><b>SEO Title</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                th:field="*{metaTitle}"
+                                                name="metaTitle"
+                                                id="metaTitle"
+                                                required
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="metaDescription" class="mb-3"><b>Mô tả SEO</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                th:field="*{metaDescription}"
+                                                name="metaDescription"
+                                                id="metaDescription"
+                                                required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                        <span class="btn-label">
+                          <i class="fa fa-plus"></i>
+                        </span>
+                            Sửa bài viết
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

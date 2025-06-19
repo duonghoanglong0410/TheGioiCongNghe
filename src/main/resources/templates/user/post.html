@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Post - TheGioiCongNghe.vn | Laptop, PC, Màn hình, Điện thoại, Linh kiện chính hãng</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/user/css/vendor/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/flaticon/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/slick.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/slick-theme.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/sal.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/base.css}">
+    <link rel="stylesheet" th:href="@{/user/css/style.min.css}">
+</head>
+<body>
+<main class="main-wrapper">
+    <!-- Start Breadcrumb Area  -->
+    <div class="axil-breadcrumb-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="inner">
+                        <ul class="axil-breadcrumb">
+                            <li class="axil-breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="separator"></li>
+                            <li class="axil-breadcrumb-item active" aria-current="page">Blogs</li>
+                        </ul>
+                        <h1 class="title">Posts</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumb Area  -->
+    <!-- Start Blog Area  -->
+    <div class="axil-blog-area axil-section-gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row g-5">
+                        <div class="col-md-6" th:each="post : ${posts}">
+                            <div class="content-blog blog-grid">
+                                <div class="inner">
+                                    <div class="thumbnail">
+                                        <a th:href="@{'/post-details/' + ${post.slug}}">
+                                            <img th:src="@{'/posts_img/' +${post.image}}" alt="Blog Images">
+                                        </a>
+                                    </div>
+                                    <div class="content">
+                                        <a th:href="@{'/post-details/' + ${post.slug}}" >
+                                            <h5 class="title" th:text="${post.title}"></h5>
+                                        </a>
+                                        <div class="read-more-btn">
+                                            <a class="axil-btn right-icon" th:href="@{'/post-details/' + ${post.slug}}">Read More <i class="fal fa-long-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-pagination">
+                        <nav class="navigation pagination" aria-label="Products">
+                            <ul class="page-numbers">
+                                <li><span aria-current="page" class="page-numbers current">1</span></li>
+                                <li><a class="page-numbers" href="#">2</a></li>
+                                <li><a class="page-numbers" href="#">3</a></li>
+                                <li><a class="page-numbers" href="#">4</a></li>
+                                <li><a class="page-numbers" href="#">5</a></li>
+                                <li><a class="next page-numbers" href="#"><i class="fal fa-arrow-right"></i></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!-- Start Sidebar Area  -->
+                    <aside class="axil-sidebar-area">
+
+                        <!-- Start Single Widget  -->
+                        <div class="axil-single-widget mt--40">
+                            <h6 class="widget-title">Latest Posts</h6>
+
+                            <!-- Start Single Post List  -->
+                            <div class="content-blog post-list-view mb--20" th:each="post : ${latestPosts}">
+                                <div class="thumbnail">
+                                    <a href="#">
+                                        <img th:src="@{'/posts_img/' +${post.image}}" alt="Blog Images">
+                                    </a>
+                                </div>
+                                <div class="content">
+                                    <h6 class="title" th:text="${post.title}"><a href="#" ></a></h6>
+                                    <div class="axil-post-meta">
+                                        <div class="post-meta-content">
+                                            <ul class="post-meta-list">
+                                                <li th:text="${post.createdAt}"></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Single Post List  -->
+                        </div>
+                        <!-- End Single Widget  -->
+                        <!-- Start Single Widget  -->
+                        <div class="axil-single-widget mt--40 widget_search">
+                            <h6 class="widget-title">Search</h6>
+                            <form class="blog-search" action="#">
+                                <button class="search-button"><i class="fal fa-search"></i></button>
+                                <input type="text" placeholder="Search">
+                            </form>
+                        </div>
+                        <!-- End Single Widget  -->
+
+                        <!-- Start Single Widget  -->
+                        <div class="axil-single-widget mt--40 widget_archive">
+                            <h6 class="widget-title">Archives List</h6>
+                            <ul>
+                                <li><a href="#">January 2020</a></li>
+                                <li><a href="#">February 2020</a></li>
+                                <li><a href="#">March 2020</a></li>
+                                <li><a href="#">April 2020</a></li>
+                            </ul>
+                        </div>
+                        <!-- End Single Widget  -->
+
+                        <!-- Start Single Widget  -->
+                        <div class="axil-single-widget mt--40 widget_archive_dropdown">
+                            <h6 class="widget-title">Archives Dropdown</h6>
+                            <select>
+                                <option>Select Month</option>
+                                <option>April 2020 (4)</option>
+                                <option>May 2020 (4)</option>
+                                <option>June 2020 (4)</option>
+                                <option>July 2020 (4)</option>
+                            </select>
+                        </div>
+                        <!-- End Single Widget  -->
+
+                        <!-- Start Single Widget  -->
+                        <div class="axil-single-widget mt--40 widget_tag_cloud">
+                            <h6 class="widget-title">Tags</h6>
+                            <div class="tagcloud">
+                                <a href="#">Design</a>
+                                <a href="#">HTML</a>
+                                <a href="#">Graphic</a>
+                                <a href="#">Development</a>
+                                <a href="#">UI/UX Design</a>
+                                <a href="#">eCommerce</a>
+                                <a href="#">CSS</a>
+                                <a href="#">JS</a>
+                            </div>
+                        </div>
+                        <!-- End Single Widget  -->
+
+                    </aside>
+                    <!-- End Sidebar Area -->
+                </div>
+            </div>
+            <!-- End post-pagination -->
+        </div>
+        <!-- End .container -->
+    </div>
+    <!-- End Blog Area  -->
+</main>
+<!-- Modernizer JS -->
+<script th:src="@{/user/js/vendor/modernizr.min.js}"></script>
+<!-- jQuery JS -->
+<script th:src="@{/user/js/vendor/jquery.js}"></script>
+<!-- Bootstrap JS -->
+<script th:src="@{/user/js/vendor/popper.min.js}"></script>
+<script th:src="@{/user/js/vendor/bootstrap.min.js}"></script>
+<script th:src="@{/user/js/vendor/slick.min.js}"></script>
+<script th:src="@{/user/js/vendor/js.cookie.js}"></script>
+<!-- <script th:src="@{/js/vendor/jquery.style.switcher.js}"></script> -->
+<script th:src="@{/user/js/vendor/jquery-ui.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.ui.touch-punch.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.countdown.min.js}"></script>
+<script th:src="@{/user/js/vendor/sal.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/user/js/vendor/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/isotope.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/counterup.js}"></script>
+<script th:src="@{/user/js/vendor/waypoints.min.js}"></script>
+
+<!-- Main JS -->
+<script th:src="@{/user/js/main.js}"></script>
+</body>
+</html>

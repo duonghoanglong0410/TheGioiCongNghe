@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title th:text="${metaTitle}">Default Title</title>
+    <meta name="description" th:content="${metaDescription}" />
+    <meta name="title" th:content="${metaTitle}" />
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{'/user/images/icon-favicon.png'}">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/user/css/vendor/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/flaticon/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/slick.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/slick-theme.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/sal.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/base.css}">
+    <link rel="stylesheet" th:href="@{/user/css/style.min.css}">
+</head>
+<body>
+<main class="main-wrapper">
+    <!-- Start Breadcrumb Area  -->
+    <div class="axil-breadcrumb-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="inner">
+                        <ul class="axil-breadcrumb">
+                            <li class="axil-breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="separator"></li>
+                            <li class="axil-breadcrumb-item active" aria-current="page">Contact</li>
+                        </ul>
+                        <h1 class="title">Contact With Us</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumb Area  -->
+
+    <!-- Start Contact Area  -->
+    <div class="axil-contact-page-area axil-section-gap">
+        <div class="container">
+            <div class="axil-contact-page">
+                <div class="row row--30">
+                    <div class="col-lg-8">
+                        <div class="contact-form">
+                            <h3 class="title mb--10">Chúng tôi rất mong nhận được phản hồi từ bạn.</h3>
+                            <p>Nếu bạn có những sản phẩm tuyệt vời mà bạn đang tạo ra hoặc muốn hợp tác với chúng tôi thì hãy liên hệ với chúng tôi.</p>
+                            <form id="contact-form"  class="axil-contact-form">
+                                <div class="row row--10">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="contact-name">Name <span>*</span></label>
+                                            <input type="text" name="contact-name" id="contact-name">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="contact-phone">Phone <span>*</span></label>
+                                            <input type="text" name="contact-phone" id="contact-phone">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="contact-email">E-mail <span>*</span></label>
+                                            <input type="email" name="contact-email" id="contact-email">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="contact-message">Your Message</label>
+                                            <textarea name="contact-message" id="contact-message" cols="1" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group mb--0">
+                                            <button name="submit" type="submit" id="submit" class="axil-btn btn-bg-primary">Send Message</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="contact-location mb--40">
+                            <h4 class="title mb--20">Our Store</h4>
+                            <span class="address mb--20">123 Phạm Văn Đồng, Quận Bình Thạnh, TP.HCM</span>
+                            <span class="phone">Phone: +123 456 7890</span>
+                            <span class="email">Email: Hello@thegioicongnghe.com</span>
+                        </div>
+                        <div class="opening-hour">
+                            <h4 class="title mb--20">Thời gian mở cửa</h4>
+                            <p>Thứ 2 - Thứ 7: 9am - 10pm
+                                <br> Chủ nhật : 10am - 6pm
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Start Google Map Area  -->
+            <div class="axil-google-map-wrap axil-section-gap pb--0">
+                <div class="mapouter">
+                    <div class="gmap_canvas">
+                        <iframe width="1080" height="500" id="gmap_canvas" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2099330688684!2d106.7192162775047!3d10.79522715884161!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527c2f8f30911%3A0x36ac5073f8c91acd!2sLandmark%2081!5e0!3m2!1svi!2s!4v1734119350652!5m2!1svi!2s"></iframe>
+                    </div>
+                </div>
+            </div>
+            <!-- End Google Map Area  -->
+        </div>
+    </div>
+    <!-- End Contact Area  -->
+</main>
+<!-- JS
+============================================ -->
+<!-- Modernizer JS -->
+
+<script th:src="@{/user/js/vendor/modernizr.min.js}"></script>
+<!-- jQuery JS -->
+<script th:src="@{/user/js/vendor/jquery.js}"></script>
+<!-- Bootstrap JS -->
+<script th:src="@{/user/js/vendor/popper.min.js}"></script>
+<script th:src="@{/user/js/vendor/bootstrap.min.js}"></script>
+<script th:src="@{/user/js/vendor/slick.min.js}"></script>
+<script th:src="@{/user/js/vendor/js.cookie.js}"></script>
+<!-- <script th:src="@{/js/vendor/jquery.style.switcher.js}"></script> -->
+<script th:src="@{/user/js/vendor/jquery-ui.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.ui.touch-punch.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.countdown.min.js}"></script>
+<script th:src="@{/user/js/vendor/sal.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/user/js/vendor/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/isotope.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/counterup.js}"></script>
+<script th:src="@{/user/js/vendor/waypoints.min.js}"></script>
+
+<!-- Main JS -->
+<script th:src="@{/user/js/main.js}"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title th:text="${metaTitle}">Default Title</title>
+    <meta name="description" th:content="${metaDescription}" />
+    <meta name="title" th:content="${metaTitle}" />
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{'/user/images/icon-favicon.png'}">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/user/css/vendor/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/flaticon/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/slick.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/slick-theme.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/sal.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/base.css}">
+    <link rel="stylesheet" th:href="@{/user/css/style.min.css}">
+</head>
+<body>
+<div th:replace="/user/fragments/header :: header"></div>
+
+
+<!-- Thay thế nội dung với layout chính -->
+<div th:replace="${content}"></div>
+    <!-- Start Axil Newsletter Area  -->
+
+<div th:replace="/user/fragments/news_letter :: news_letter"></div>
+    <!-- End Axil Newsletter Area  -->
+<!--Cart Drop Down--->
+<div th:replace="/user/fragments/cart_dropdown :: cart_dropdown"></div>
+
+<!--Service-->
+<div th:replace="/user/fragments/services :: services"></div>
+<!---End Service--->
+<!-- Header Search Modal End -->
+<div th:replace="/user/fragments/search_modal :: search_modal"></div>
+<!-- Header Search Modal End -->
+<!---Footer--->
+<div th:replace="/user/fragments/footer :: footer"></div>
+<!---End Footer--->
+
+<!-- JS
+============================================ -->
+<!-- Modernizer JS -->
+
+<script th:src="@{/user/js/vendor/modernizr.min.js}"></script>
+<!-- jQuery JS -->
+<script th:src="@{/user/js/vendor/jquery.js}"></script>
+<!-- Bootstrap JS -->
+<script th:src="@{/user/js/vendor/popper.min.js}"></script>
+<script th:src="@{/user/js/vendor/bootstrap.min.js}"></script>
+<script th:src="@{/user/js/vendor/slick.min.js}"></script>
+<script th:src="@{/user/js/vendor/js.cookie.js}"></script>
+<!-- <script th:src="@{/js/vendor/jquery.style.switcher.js}"></script> -->
+<script th:src="@{/user/js/vendor/jquery-ui.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.ui.touch-punch.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.countdown.min.js}"></script>
+<script th:src="@{/user/js/vendor/sal.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/user/js/vendor/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/isotope.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/counterup.js}"></script>
+<script th:src="@{/user/js/vendor/waypoints.min.js}"></script>
+
+<!-- Main JS -->
+<script th:src="@{/user/js/main.js}"></script>
+</body>
+</html>

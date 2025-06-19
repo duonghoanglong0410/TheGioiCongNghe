@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý người dùng</title>
+</head>
+<body>
+<div class="page-inner">
+  <div class="page-header">
+    <h3 class="fw-bold mb-3">Danh sách người dùng</h3>
+    <ul class="breadcrumbs mb-3">
+      <li class="nav-home">
+        <a href="#">
+          <i class="icon-home"></i>
+        </a>
+      </li>
+      <li class="separator">
+        <i class="icon-arrow-right"></i>
+      </li>
+      <li class="nav-item">
+        <a href="#">Thêm người dùng</a>
+      </li>
+
+      <li class="separator">
+        <i class="icon-arrow-right"></i>
+      </li>
+
+      <li class="nav-item">
+        <a href="#">Thêm người dùng</a>
+      </li>
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex align-items-center">
+            <h4 class="card-title">Thêm người dùng</h4>
+          </div>
+        </div>
+        <div class="card-body">
+          <form action="/admin/user/add" method="post" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-md-6 col-lg-4">
+                <div class="form-group">
+                  <label for="name" class="mb-3"><b>Họ tên người dùng</b></label>
+                  <div class="input-group mb-3">
+                    <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Họ tên người dùng"
+                            name="name"
+                            id="name"
+                            required
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="email" class="mb-3"><b>Email</b></label>
+                  <div class="input-group mb-3">
+                    <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Email"
+                            name="email"
+                            id="email"
+                            required
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Password</label>
+                  <input type="password" class="form-control" name="password" id="password" placeholder="Nhập mật khẩu">
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-group">
+                  <label for="address" class="mb-3"><b>Địa chỉ</b></label>
+                  <div class="input-group mb-3">
+                    <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Tên danh mục"
+                            name="address"
+                            id="address"
+                            required
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="role">Role</label>
+                  <select
+                          class="form-control"
+                          id="role"
+                          name="role"
+                          required>
+                    <option value="ROLE_USER">User</option>
+                    <option value="ROLE_ADMIN">Admin</option>
+
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="form-group">
+                  <label class="mb-3"><b>Profile Image</b></label>
+                  <div class="mb-3">
+                    <input class="form-control" type="file" id="Image" name="Image">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                        <span class="btn-label">
+                          <i class="fa fa-plus"></i>
+                        </span>
+              Thêm người dùng
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách danh mục sản phẩm</title>
+</head>
+<body>
+<div class="page-inner">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Danh mục sản phẩm</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="#">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Danh mục sản phẩm</a>
+            </li>
+
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+
+            <li class="nav-item">
+                <a href="#">Sửa danh mục sản phẩm</a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Sửa danh mục sản phẩm</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/admin/categories/edit/{id}(id=${category.categoryId})}" th:object="${category}" method="post"
+                    enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label for="categoryName" class="mb-3"><b>Tên danh mục</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="categoryName"
+                                                id="categoryName"
+                                                th:field="*{categoryName}"
+                                                required
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="categorySlug" class="mb-3"><b>URL danh mục</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="categorySlug"
+                                                id="categorySlug"
+                                                th:field="*{categorySlug}"
+                                                required
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="parentCategory" class="mb-3"><b>Danh Mục Cha</b></label>
+                                    <div class="input-group mb-3">
+                                        <select class="form-select" id="parentCategory" name="parentCategory">
+                                            <option value="">Không có</option>
+                                            <th:block th:each="parentCategory : ${parentCategories}">
+                                                <option th:value="${parentCategory.categoryId}"
+                                                        th:text="${parentCategory.categoryName}"
+                                                        th:selected="${parentCategory.categoryId == category.parentCategory?.categoryId}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label for="metaTitle" class="mb-3"><b>SEO Title</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="metaTitle"
+                                                id="metaTitle"
+                                                th:field="*{metaTitle}"
+                                                required
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="metaDescription" class="mb-3"><b>Mô tả SEO</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                th:field="*{metaDescription}"
+                                                name="metaDescription"
+                                                id="metaDescription"
+                                                required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label for="icon" class="mb-3"><b>ICON</b></label>
+                                    <div class="mb-3">
+                                        <!-- Hiển thị icon hiện tại nếu có -->
+                                        <div>
+                                            <img th:if="${category.icon != null}" th:src="@{'/category_img/' + ${category.icon}}"
+                                                 alt="Current Icon" width="100px" height="100px" />
+                                            <span th:if="${category.icon == null}">No icon available</span>
+                                        </div>
+                                        <!-- Input để tải lên icon mới -->
+                                        <input class="form-control" type="file" id="iconFile" name="iconFile">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                        <span class="btn-label">
+                          <i class="fa fa-plus"></i>
+                        </span>
+                            Sửa danh mục
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

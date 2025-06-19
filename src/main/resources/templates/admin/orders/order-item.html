@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách đơn hàng</title>
+</head>
+<body>
+<div class="page-inner">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Đơn hàng</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="#">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Chi tiết đơn hàng</a>
+            </li>
+
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Danh sách sản phẩm</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form th:object="${order}">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label for="hoTen" class="mb-3"><b>Tên khách hàng</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="hoTen"
+                                                id="hoTen"
+                                                th:field="*{hoTen}"
+                                                readonly
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone" class="mb-3"><b>Phone</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="phone"
+                                                id="phone"
+                                                th:field="*{phone}"
+                                                readonly
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address" class="mb-3"><b>Address</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="address"
+                                                id="address"
+                                                th:field="*{address}"
+                                                readonly
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label for="totalPrice" class="mb-3"><b>Total Price</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="totalPrice"
+                                                id="totalPrice"
+                                                th:field="*{totalPrice}"
+                                                readonly
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="orderStatus">Trạng thái giao hàng:</label>
+                                    <input
+                                            class="form-control"
+                                            id="orderStatus"
+                                            name="orderStatus"
+                                            th:field="*{orderStatus}"
+                                            readonly/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item, iterStat : ${orderItems}">
+                            <td th:text="${iterStat.index + 1}">1</td>
+                            <td th:text="${item.product.productName}">Tên sản phẩm</td>
+                            <td th:text="${item.unitPrice}">0</td>
+                            <td th:text="${item.quantity}">0</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-primary btn-lg" th:href="@{/admin/order/list}">Trở lại danh sách đơn hàng</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

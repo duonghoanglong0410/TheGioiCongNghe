@@ -1,0 +1,71 @@
+<!-- Start Expolre Product Area  -->
+<div class="axil-product-area bg-color-white axil-section-gap" th:fragment="explore_product">
+    <div class="container">
+        <div class="section-title-wrapper">
+            <span class="title-highlighter highlighter-primary"> <i class="far fa-shopping-basket"></i> Sản phẩm của chúng tôi</span>
+            <h2 class="title">Khám phá sản phẩm của chúng tôi</h2>
+        </div>
+        <div class="explore-product-activation slick-layout-wrapper slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide">
+            <div class="slick-single-layout" >
+                <div class="row row--15">
+                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30" th:each="product : ${products}">
+                        <div class="axil-product product-style-one">
+                            <div class="thumbnail">
+                                <a th:href="@{'/product-detail/' + ${product.productSlug}}">
+                                    <img data-sal="zoom-out" data-sal-delay="200" data-sal-duration="800" loading="lazy" class="main-img" th:src="@{'/product_images/main/' +${product.imageUrl}}" alt="Product Images">
+                                    <div th:each="image, iter : ${product.images}" th:if="${iter.index == 0}">
+                                        <img class="hover-img" th:src="@{'/product_images/extra/' +${image.imageUrl}}" alt="Product Images">
+                                    </div>
+                                </a>
+                                <div class="label-block label-right">
+                                    <div class="product-badget">20% Off</div>
+                                </div>
+                                <div class="product-hover-action">
+                                    <ul class="cart-action">
+                                        <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
+                                        <li class="select-option">
+                                            <th:block th:if="${product.stockQuantity > 0}">
+                                                <a th:href="@{'/add-to-cart?pid=' + ${product.productId}}"
+                                                   class="btn btn-danger col-md-12">Add To Cart</a>
+                                            </th:block>
+
+                                        </li>
+                                        <li class="wishlist"><a href="#"><i class="far fa-heart"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <div class="inner">
+                                    <div class="product-rating">
+                                                <span class="icon">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </span>
+                                        <span class="rating-number">(64)</span>
+                                    </div>
+                                    <h5 class="title" th:text="${product.productName}"><a href="#"></a></h5>
+                                    <div class="product-price-variant">
+                                        <span class="price current-price" th:text="${product.price}">vnd</span>
+                                        <span class="price old-price">$49.99</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Single Product  -->
+                </div>
+            </div>
+            <!-- End .slick-single-layout -->
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center mt--20 mt_sm--0">
+                <a href="#" class="axil-btn btn-bg-lighter btn-load-more">Xem tất cả sản phẩm</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- End Expolre Product Area  -->

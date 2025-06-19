@@ -1,0 +1,11 @@
+# Chặn các bot truy cập trang quản trị
+User-agent: *
+Disallow: /admin/
+Disallow: /cart/
+Disallow: /checkout/
+
+# Cho phép thu thập toàn bộ các trang còn lại
+Allow: /
+
+# Liên kết tới sitemap
+Sitemap: https://www.thegioicongnghe.vn/sitemap.xml

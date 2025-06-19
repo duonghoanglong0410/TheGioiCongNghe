@@ -1,0 +1,415 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+
+<!-- Mirrored from new.axilthemes.com/demo/template/etrade/single-product-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Oct 2024 06:29:08 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="robots" content="noindex, follow" />
+    <title th:text="${metaTitle}">Default Title</title>
+    <meta name="description" th:content="${metaDescription}" />
+    <meta name="title" th:content="${metaTitle}" />
+    <meta name="keywords" th:content="${keywords}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
+
+    <!-- CSS
+    ============================================ -->
+
+    <link rel="stylesheet" th:href="@{/user/css/vendor/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/flaticon/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/slick.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/slick-theme.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/sal.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/base.css}">
+    <link rel="stylesheet" th:href="@{/user/css/style.min.css}">
+
+</head>
+<style>
+    /* Ngôi sao chưa được chọn */
+    .rating-inner .star i {
+        color: #d3d3d3;  /* Màu xám nhạt */
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    /* Ngôi sao được chọn */
+    .rating-inner .star.selected i {
+        color: #f39c12;  /* Màu vàng */
+    }
+
+    /* Ngôi sao khi hover */
+    .rating-inner .star:hover i {
+        color: #f39c12;  /* Màu vàng khi hover */
+    }
+    .fal.fa-star {
+        color: rgb(128, 128, 128); /* Màu mặc định */
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .fal.fa-star.active {
+        color: gold; /* Màu khi được tô */
+    }
+
+    .fa-star {
+        color: #ccc; /* Màu sao mặc định (trống) */
+    }
+
+    .fa-star.active {
+        color: #FFD700; /* Màu vàng cho sao đã chọn */
+    }
+
+
+
+    .share-list {
+        list-style: none;
+        display: flex;
+        gap: 10px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .share-btn {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    .share-btn.facebook {
+        background-color: #3b5998;
+    }
+
+    .share-btn.twitter {
+        background-color: #1da1f2;
+    }
+
+    .share-btn i {
+        margin-right: 5px;
+    }
+
+</style>
+
+<body class="sticky-header">
+<!--[if lte IE 9]>
+<![endif]-->
+<a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>
+<!-- Start Header -->
+<!-- End Header -->
+
+<main class="main-wrapper">
+    <!-- Start Shop Area  -->
+    <div class="axil-single-product-area axil-section-gap pb--0 bg-color-white">
+        <div class="single-product-thumb mb--40">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7 mb--40">
+                        <div class="row">
+                            <div class="col-lg-10 order-lg-2">
+                                <div class="single-product-thumbnail-wrap zoom-gallery">
+                                    <div class="single-product-thumbnail product-large-thumbnail-3 axil-product">
+                                        <div class="thumbnail">
+                                            <a th:href="@{'/product_images/main/' +${product.imageUrl}}" class="popup-zoom">
+                                                <img th:src="@{'/product_images/main/' +${product.imageUrl}}" alt="Product Images">
+                                            </a>
+                                        </div>
+                                        <div class="thumbnail" th:each="image : ${product.images}">
+                                            <a th:href="@{'/product_images/extra/' + ${image.imageUrl}}" class="popup-zoom">
+                                                <img th:src="@{'/product_images/extra/' + ${image.imageUrl}}" alt="Product Images">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!--
+                                        <div class="label-block">
+                                        <div class="product-badget">20% OFF</div>
+                                    </div>-->
+                                    <div class="product-quick-view position-view">
+                                        <a th:href="@{'/product_images/main/' +${product.imageUrl}}" class="popup-zoom">
+                                            <i class="far fa-search-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 order-lg-1">
+                                <div class="product-small-thumb-3 small-thumb-wrapper">
+                                    <div class="small-thumb-img">
+                                        <img th:src="@{'/product_images/main/' +${product.imageUrl}}" alt="thumb image">
+                                    </div>
+                                    <div class="small-thumb-img" th:each="image : ${product.images}">
+                                        <img th:src="@{'/product_images/extra/' + ${image.imageUrl}}" alt="thumb image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 mb--40">
+                        <div class="single-product-content">
+                            <div class="inner">
+                                <h2 class="product-title" th:text="${product.productName}"></h2>
+                                <span class="price-amount" th:text="${product.price}"></span>
+                                <div class="product-rating">
+                                    <div class="star-rating">
+                                        <i class="fas fa-star" th:classappend="${averageRating >= 1 ? 'active' : ''}"></i>
+                                        <i class="fas fa-star" th:classappend="${averageRating >= 2 ? 'active' : ''}"></i>
+                                        <i class="fas fa-star" th:classappend="${averageRating >= 3 ? 'active' : ''}"></i>
+                                        <i class="fas fa-star" th:classappend="${averageRating >= 4 ? 'active' : ''}"></i>
+                                        <i class="fas fa-star" th:classappend="${averageRating >= 5 ? 'active' : ''}"></i>
+                                    </div>
+                                    <div class="review-link">
+                                        <a href="#">(<span th:text="${reviewCount}"></span> đánh giá từ người dùng)</a>
+                                    </div>
+                                </div>
+                                <ul class="product-meta">
+                                    <li><i class="fal fa-check"></i>Còn hàng</li>
+                                    <li><i class="fal fa-check"></i>Giao hàng miễn phí</li>
+                                </ul>
+                                <div class="product-variations-wrapper">
+
+                                    <!-- Start Product Variation  -->
+                                    <div class="product-variation">
+                                        <h6 class="title">Colors:</h6>
+                                        <div class="color-variant-wrapper">
+                                            <ul class="color-variant">
+                                                <li class="color-extra-01 active"><span><span class="color"></span></span>
+                                                </li>
+                                                <li class="color-extra-02"><span><span class="color"></span></span>
+                                                </li>
+                                                <li class="color-extra-03"><span><span class="color"></span></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- End Product Variation  -->
+
+                                    <!-- Start Product Variation -->
+                                    <div class="product-variation">
+                                        <h6 class="title">Share:</h6>
+                                        <div class="share-wrapper">
+                                            <ul class="share-list">
+                                                <!-- Share on Facebook -->
+                                                <li>
+                                                    <a th:href="'https://www.facebook.com/sharer/sharer.php?u=' + ${product.productSlug}" target="_blank" class="share-btn facebook">
+                                                        <i class="fab fa-facebook-f"></i> Facebook
+                                                    </a>
+                                                </li>
+                                                <!-- Share on Twitter -->
+                                                <li>
+                                                    <a th:href="'https://twitter.com/intent/tweet?url=' + ${product.productSlug} + '&text=Check out this product!'" target="_blank" class="share-btn twitter">
+                                                        <i class="fab fa-twitter"></i> Twitter
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- End Product Variation -->
+
+
+
+                                </div>
+
+                                <!-- Start Product Action Wrapper  -->
+                                <div class="product-action-wrapper d-flex-center">
+                                    <!-- Start Quentity Action
+                                    <div class="pro-qty"><input type="text" value="1"></div> -->
+                                    <!-- End Quentity Action  -->
+
+                                    <!-- Start Product Action  -->
+                                    <ul class="product-action d-flex-center mb--0">
+                                        <li class="add-to-cart"><a th:href="@{'/add-to-cart?pid=' + ${product.productId}}" class="axil-btn btn-bg-primary">Thêm vào giỏ hàng</a></li>
+                                        <li class="wishlist"><a href="#" class="axil-btn wishlist-btn"><i class="far fa-heart"></i></a></li>
+                                    </ul>
+                                    <!-- End Product Action  -->
+
+                                </div>
+                                <!-- End Product Action Wrapper  -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End .single-product-thumb -->
+
+        <div class="woocommerce-tabs wc-tabs-wrapper bg-vista-white">
+            <div class="container">
+                <ul class="nav tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Mô tả sản phẩm</a>
+                    </li>
+                    <li class="nav-item " role="presentation">
+                        <a id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab" aria-controls="additional-info" aria-selected="false">Thông tin về sản phẩm</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Đánh giá</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                        <div class="product-desc-wrapper">
+                            <div class="row">
+                                <div class="col-lg-6 mb--30">
+                                    <div class="single-desc">
+                                        <p th:utext="${product.description}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End .product-desc-wrapper -->
+                    </div>
+                    <div class="tab-pane fade" id="additional-info" role="tabpanel" aria-labelledby="additional-info-tab">
+                        <div class="product-additional-info">
+                            <div class="table-responsive">
+                                <table>
+                                    <tbody th:utext="${product.description}">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                        <div class="reviews-wrapper">
+                            <div class="row">
+                                <div class="col-lg-6 mb--40">
+                                    <div class="axil-comment-area pro-desc-commnet-area">
+                                        <h5 th:text="${reviewCount} + ' đánh giá cho sản phẩm này'"></h5>
+                                        <ul class="comment-list">
+                                            <!-- Start Single Comment  -->
+                                            <li class="comment">
+                                                <div class="comment-body" th:each="review : ${reviews}">
+                                                    <div class="single-comment">
+                                                        <div class="comment-img">
+                                                            <img th:src="@{'/profile_img/'+${review.user.profileImage}}" th:alt="${review.user.name}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; border: 2px solid #ddd; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
+                                                        </div>
+                                                        <div class="comment-inner">
+                                                            <h6 class="commenter">
+                                                                <a class="hover-flip-item-wrapper" href="#">
+                                                                        <span class="hover-flip-item">
+                                                                            <span data-text="Cameron Williamson" th:text="${review.user.name}"></span>
+                                                                        </span>
+                                                                </a>
+                                                                <span class="commenter-rating ratiing-four-star">
+                                                                         <i class="fa fa-star" th:classappend="${review.rating >= 1 ? 'active' : ''}"></i>
+                                                                        <i class="fa fa-star" th:classappend="${review.rating >= 2 ? 'active' : ''}"></i>
+                                                                        <i class="fa fa-star" th:classappend="${review.rating >= 3 ? 'active' : ''}"></i>
+                                                                        <i class="fa fa-star" th:classappend="${review.rating >= 4 ? 'active' : ''}"></i>
+                                                                        <i class="fa fa-star" th:classappend="${review.rating >= 5 ? 'active' : ''}"></i>
+                                                                    </span>
+                                                            </h6>
+                                                            <div class="comment-text">
+                                                                <p th:text="${review.reviewText}"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <!-- End Single Comment  -->
+                                        </ul>
+                                    </div>
+                                    <!-- End .axil-commnet-area -->
+                                </div>
+                                <!-- End .col -->
+                                <div class="col-lg-6 mb--40">
+                                    <!-- Start Comment Respond  -->
+                                    <div class="comment-respond pro-des-commend-respond mt--0">
+                                        <form action="/save-product-rating" method="post">
+                                            <div class="row">
+                                                <h5 class="title mb--30">Thêm đánh giá cho sản phẩm</h5>
+                                                <input type="hidden" name="productId" th:value="${product.productId}" />
+                                                <div class="rating-wrapper d-flex-center mb--40">
+                                                    Đánh giá của bạn <span class="require">*</span>
+                                                    <div class="reating-inner ml--20" id="starRating">
+                                                        <a href="#" onclick="setRating(1); return false;"><i class="fal fa-star"></i></a>
+                                                        <a href="#" onclick="setRating(2); return false;"><i class="fal fa-star"></i></a>
+                                                        <a href="#" onclick="setRating(3); return false;"><i class="fal fa-star"></i></a>
+                                                        <a href="#" onclick="setRating(4); return false;"><i class="fal fa-star"></i></a>
+                                                        <a href="#" onclick="setRating(5); return false;"><i class="fal fa-star"></i></a>
+                                                    </div>
+                                                    <input type="hidden" id="ratingValue" name="rating" />
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label>Đánh giá</label>
+                                                        <textarea id="reviewText" name="reviewText" rows="4" cols="50" placeholder="Write your review"></textarea><br><br>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-submit">
+                                                        <button type="submit" id="submit" class="axil-btn btn-bg-primary w-auto">Gửi đánh giá</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- End Comment Respond  -->
+                                </div>
+                                <!-- End .col -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- woocommerce-tabs -->
+        </div>
+    <!-- End Shop Area  -->
+</main>
+<script>
+    function setRating(rating) {
+        // Lưu giá trị rating vào input ẩn
+        document.getElementById("ratingValue").value = rating;
+
+        // Lấy danh sách các ngôi sao
+        const stars = document.querySelectorAll("#starRating .fa-star");
+
+        // Lặp qua tất cả ngôi sao
+        stars.forEach((star, index) => {
+            // Thêm hoặc xóa lớp `active` dựa trên thứ tự
+            if (index < rating) {
+                star.classList.add("active");
+            } else {
+                star.classList.remove("active");
+            }
+        });
+    }
+
+
+</script>
+<!-- JS
+============================================ -->
+<!-- Modernizer JS -->
+<script th:src="@{/user/js/vendor/modernizr.min.js}"></script>
+<!-- jQuery JS -->
+<script th:src="@{/user/js/vendor/jquery.js}"></script>
+<!-- Bootstrap JS -->
+<script th:src="@{/user/js/vendor/popper.min.js}"></script>
+<script th:src="@{/user/js/vendor/bootstrap.min.js}"></script>
+<script th:src="@{/user/js/vendor/slick.min.js}"></script>
+<script th:src="@{/user/js/vendor/js.cookie.js}"></script>
+<!-- <script th:src="@{/js/vendor/jquery.style.switcher.js}"></script> -->
+<script th:src="@{/user/js/vendor/jquery-ui.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.ui.touch-punch.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.countdown.min.js}"></script>
+<script th:src="@{/user/js/vendor/sal.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/user/js/vendor/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/isotope.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/counterup.js}"></script>
+<script th:src="@{/user/js/vendor/waypoints.min.js}"></script>
+
+<!-- Main JS -->
+<script th:src="@{/user/js/main.js}"></script>
+
+</body>
+
+
+<!-- Mirrored from new.axilthemes.com/demo/template/etrade/single-product-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Oct 2024 06:29:09 GMT -->
+</html>

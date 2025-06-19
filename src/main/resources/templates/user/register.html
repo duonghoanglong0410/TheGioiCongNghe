@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>TheGioiCongNghe.vn | Laptop, PC, Màn hình, Điện thoại, Linh kiện chính hãng</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" th:href="@{/user/css/vendor/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/font-awesome.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/flaticon/flaticon.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/slick.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/slick-theme.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/jquery-ui.min.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/sal.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/magnific-popup.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/base.css}">
+  <link rel="stylesheet" th:href="@{/user/css/style.min.css}">
+</head>
+<body>
+<div class="axil-signin-area">
+
+  <!-- Start Header -->
+  <div class="signin-header">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <a href="#" class="site-logo"><img th:src="@{'user/images/icon-favicon.png'}" alt="logo" height="50px" width="50px"></a>
+      </div>
+      <div class="col-md-6">
+        <div class="singin-header-btn">
+          <p>Already a member?</p>
+          <a href="/signin" class="axil-btn btn-bg-secondary sign-up-btn">Sign In</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Header -->
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-6">
+      <div class="axil-signin-banner bg_image bg_image--10">
+        <h3 class="title">We Offer the Best Products</h3>
+      </div>
+    </div>
+    <div class="col-lg-6 offset-xl-2">
+      <div class="axil-signin-form-wrap">
+        <div class="axil-signin-form">
+          <h3 class="title">I'm New Here</h3>
+          <th:block th:if="${session.succMsg}">
+            <p class="text-success fw-bold">[[${session.succMsg}]]</p>
+            <th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+          </th:block>
+
+          <th:block th:if="${session.errorMsg}">
+            <p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+            <th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+          </th:block>
+          <p class="b2 mb--55">Enter your detail below</p>
+          <form class="singin-form" action="/register" method="post" enctype="multipart/form-data">
+            <!--
+                        <div class="form-group">
+              <label>User Name</label>
+              <input type="text" class="form-control" name="username" id="username" value="User Name" required>
+            </div>
+            -->
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <input type="text" class="form-control" name="address" id="address" placeholder="Address" required>
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" required>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" class="form-control" name="email" id="email" placeholder="email@example.com" required>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" class="form-control" name="password" id="password" placeholder="Nhập mật khẩu">
+            </div>
+            <div class="form-group">
+              <label>Profile Image</label>
+              <input type="file" class="form-control" name="Image" id="Image">
+            </div>
+            <div class="form-group">
+              <button type="submit" class="axil-btn btn-bg-primary submit-btn">Create Account</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modernizer JS -->
+<script th:src="@{/user/js/vendor/modernizr.min.js}"></script>
+<!-- jQuery JS -->
+<script th:src="@{/user/js/vendor/jquery.js}"></script>
+<!-- Bootstrap JS -->
+<script th:src="@{/user/js/vendor/popper.min.js}"></script>
+<script th:src="@{/user/js/vendor/bootstrap.min.js}"></script>
+<script th:src="@{/user/js/vendor/slick.min.js}"></script>
+<script th:src="@{/user/js/vendor/js.cookie.js}"></script>
+<!-- <script th:src="@{/js/vendor/jquery.style.switcher.js}"></script> -->
+<script th:src="@{/user/js/vendor/jquery-ui.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.ui.touch-punch.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.countdown.min.js}"></script>
+<script th:src="@{/user/js/vendor/sal.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/user/js/vendor/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/isotope.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/counterup.js}"></script>
+<script th:src="@{/user/js/vendor/waypoints.min.js}"></script>
+
+<!-- Main JS -->
+<script th:src="@{/user/js/main.js}"></script>
+</body>
+</html>

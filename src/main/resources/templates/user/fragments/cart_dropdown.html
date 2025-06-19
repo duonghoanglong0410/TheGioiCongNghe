@@ -1,0 +1,49 @@
+<div class="cart-dropdown" id="cart-dropdown" th:fragment="cart_dropdown">
+    <div class="cart-content-wrap">
+        <div class="cart-header">
+            <h2 class="header-title">Cart Review</h2>
+            <button class="cart-close sidebar-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-body">
+            <ul class="cart-item-list">
+                <li class="cart-item" th:each="cart : ${carts}">
+                    <div class="item-img">
+                        <a th:href="@{'/product-detail/' + ${cart.product.productSlug}}">
+                            <img th:src="@{'/product_images/main/' + ${cart.product.imageUrl}}"
+                                 th:alt="${cart.product.productName}">
+                        </a>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="item-content">
+                        <h3 class="item-title">
+                            <a th:href="@{'/product-detail/' + ${cart.product.productSlug}}"
+                               th:text="${cart.product.productName}">Product Name</a>
+                        </h3>
+                        <div class="item-price">
+                            <span class="currency-symbol">$</span>
+                            <span th:text="${cart.product.price}">0.00</span>
+                        </div>
+                        <div class="pro-qty item-quantity">
+                            <input type="number" class="quantity-input" th:value="${cart.quantity}">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- Hiển thị thông báo nếu giỏ hàng trống -->
+            <p th:if="${#lists.isEmpty(carts)}" class="empty-cart-message">Your cart is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <h3 class="cart-subtotal">
+                <span class="subtotal-title">Subtotal:</span>
+                <span class="subtotal-amount">
+                    <span class="currency-symbol">$</span>
+                    <span th:text="${totalOrderPrice}">0.00</span>
+                </span>
+            </h3>
+            <div class="group-btn">
+                <a th:href="@{/cart}" class="axil-btn btn-bg-primary viewcart-btn">View Cart</a>
+                <a th:href="@{/checkout}" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
+            </div>
+        </div>
+    </div>
+</div>

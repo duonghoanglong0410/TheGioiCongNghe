@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách đơn hàng</title>
+</head>
+<body>
+<div class="page-inner">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Đơn hàng</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="#">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Danh sách đơn hàng</a>
+            </li>
+            <!--
+         <li class="separator">
+             <i class="icon-arrow-right"></i>
+         </li>
+
+                         <li class="nav-item">
+             <a href="#">Basic Form</a>
+         </li>
+         -->
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Danh sách đơn hàng</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table
+                                id="add-row"
+                                class="display table table-striped table-hover"
+                        >
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Total Price</th>
+                                <th>Status</th>
+                                <th style="width: 10%">Action</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr >
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Total Price</th>
+                                <th>Status</th>
+                                <th style="width: 10%">Action</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <tr th:each="orderList : ${orderList}">
+                                <td th:text="${orderList.hoTen}"></td>
+                                <td th:text="${orderList.phone}"></td>
+                                <td th:text="${orderList.address}"></td>
+                                <td th:text="${orderList.totalPrice}"></td>
+                                <td th:text="${orderList.orderStatus}"></td>
+                                <td>
+                                    <div class="form-button-action">
+                                        <a      th:href="@{/admin/order/order-item/{id}(id=${orderList.orderId})}"
+                                                type="button"
+                                                data-bs-toggle="tooltip"
+                                                title=""
+                                                class="btn btn-link btn-primary btn-lg"
+                                                data-original-title="Edit Task"
+                                        >
+                                            <i class="icon-eye"></i>
+                                        </a>
+                                        <a      th:href="@{/admin/order/edit/{id}(id=${orderList.orderId})}"
+                                                type="button"
+                                                data-bs-toggle="tooltip"
+                                                title=""
+                                                class="btn btn-link btn-primary btn-lg"
+                                                data-original-title="Edit Task"
+                                        >
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a      th:href="@{/admin/order/delete/{id}(id=${orderList.orderId})}"
+                                                type="button"
+                                                data-bs-toggle="tooltip"
+                                                title=""
+                                                class="btn btn-link btn-danger"
+                                                data-original-title="Remove"
+                                        >
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

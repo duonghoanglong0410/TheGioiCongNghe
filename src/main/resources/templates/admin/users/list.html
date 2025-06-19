@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách người dùng</title>
+</head>
+<body>
+    <div class="page-inner">
+        <div class="page-header">
+            <h3 class="fw-bold mb-3">Quản lý người dùng</h3>
+            <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                    <a href="#">
+                        <i class="icon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Danh sách người dùng</a>
+                </li>
+                <!--
+             <li class="separator">
+                 <i class="icon-arrow-right"></i>
+             </li>
+
+                             <li class="nav-item">
+                 <a href="#">Basic Form</a>
+             </li>
+             -->
+            </ul>
+        </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h4 class="card-title">Danh sách người dùng</h4>
+                    <a
+                            th:href="@{/admin/user/add}"
+                            class="btn btn-primary btn-round ms-auto"
+                    >
+                        <i class="fa fa-plus"></i>
+                        Thêm người dùng
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table
+                            id="add-row"
+                            class="display table table-striped table-hover"
+                    >
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Profile Image</th>
+                            <th style="width: 10%">Action</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr >
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Profile Image</th>
+                            <th style="width: 10%">Action</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <tr th:each="user : ${user}">
+                            <td th:text="${user.name}"></td>
+                            <td th:text="${user.email}"></td>
+                            <td th:text="${user.role}"></td>
+                            <td><img th:src="@{'/profile_img/' + ${user.profileImage}}" width="50px" height="50px" th:alt="${user.name}"> </td>
+                            <td>
+                                <div class="form-button-action">
+                                    <a      th:href="@{/admin/user/edit/{id}(id=${user.id})}"
+                                            type="button"
+                                            data-bs-toggle="tooltip"
+                                            title=""
+                                            class="btn btn-link btn-primary btn-lg"
+                                            data-original-title="Edit Task"
+                                    >
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a      href="#"
+                                            type="button"
+                                            data-bs-toggle="tooltip"
+                                            title=""
+                                            class="btn btn-link btn-danger"
+                                            data-original-title="Remove"
+                                    >
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</body>
+</html>

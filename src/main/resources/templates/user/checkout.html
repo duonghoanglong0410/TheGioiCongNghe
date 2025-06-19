@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>TheGioiCongNghe.vn | Laptop, PC, Màn hình, Điện thoại, Linh kiện chính hãng</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" th:href="@{/user/css/vendor/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/font-awesome.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/flaticon/flaticon.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/slick.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/slick-theme.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/jquery-ui.min.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/sal.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/magnific-popup.css}">
+  <link rel="stylesheet" th:href="@{/user/css/vendor/base.css}">
+  <link rel="stylesheet" th:href="@{/user/css/style.min.css}">
+</head>
+<style>
+  .suggestions {
+    position: absolute;
+    background: #1a1d24;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1000;
+    display: none;
+    margin-top: 3px;
+    border: 1px solid #3f4451;
+  }
+
+  .suggestion-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #3f4451;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    background: #292e3a;
+  }
+
+  .suggestion-item:last-child {
+    border-bottom: none;
+  }
+
+  .suggestion-item:before {
+    content: "📍";
+    margin-right: 10px;
+    font-size: 1.1em;
+    transition: transform 0.3s ease;
+  }
+
+  .suggestion-item:hover {
+    background: #3a4150;
+    color: #ffffff;
+    padding-left: 24px;
+  }
+
+  .suggestion-item:hover:before {
+    transform: scale(1.2);
+  }
+
+  .suggestion-item:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: var(--primary);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+  }
+
+  .suggestion-item:hover:after {
+    transform: scaleY(1);
+  }
+
+  .address-container {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  /* Tùy chỉnh thanh cuộn */
+  .suggestions::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .suggestions::-webkit-scrollbar-track {
+    background: #1a1d24;
+    border-radius: 8px;
+  }
+
+  .suggestions::-webkit-scrollbar-thumb {
+    background: #3f4451;
+    border-radius: 8px;
+  }
+
+  .suggestions::-webkit-scrollbar-thumb:hover {
+    background: #4f5565;
+  }
+
+</style>
+<body>
+<!-- Thay thế nội dung với layout chính -->
+<!-- Start Checkout Area  -->
+<div class="axil-checkout-area axil-section-gap">
+  <div class="container">
+    <form action="/save-order" method="post">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="axil-checkout-notice">
+            <div class="axil-toggle-box">
+              <div class="toggle-bar"><i class="fas fa-pencil"></i> Have a coupon? <a href="javascript:void(0)" class="toggle-btn">Click here to enter your code <i class="fas fa-angle-down"></i></a>
+              </div>
+
+              <div class="axil-checkout-coupon toggle-open">
+                <p>If you have a coupon code, please apply it below.</p>
+                <div class="input-group">
+                  <input placeholder="Enter coupon code" type="text">
+                  <div class="apply-btn">
+                    <button type="submit" class="axil-btn btn-bg-primary">Apply</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="axil-checkout-billing">
+            <h4 class="title mb--40">Billing details</h4>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <label>Họ và tên <span>*</span></label>
+                  <input type="text" id="hoTen" name="hoTen" placeholder="Nguyễn Văn A" required>
+                </div>
+              </div>
+              <div class="col-lg-6">
+              </div>
+            </div>
+            <!---
+            Gắp API
+            -->
+            <div class="form-group">
+              <label>Địa chỉ <span>*</span></label>
+              <input type="text" id="address" name="address" autocomplete="off" required>
+              <div id="suggestions" class="suggestions"></div>
+            </div>
+
+            <div class="form-group">
+              <label>Phone <span>*</span></label>
+              <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+              <label>Email Address <span>*</span></label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label>Note</label>
+              <input id="note" name="note">
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="axil-order-summery order-checkout-summery">
+            <h5 class="title mb--20">Your Order</h5>
+            <div class="summery-table-wrap">
+              <table class="table summery-table">
+                <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Subtotal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="order-product" th:each="cart,c:${cartItems}">
+                  <td th:text="${cart.product.productName}"> <span class="quantity"></span></td>
+                  <td th:text="${cart.product.price}"></td>
+                </tr>
+                <tr class="order-shipping">
+                  <td colspan="2">
+                    <div class="shipping-amount">
+                      <span class="title">Shipping Method</span>
+                      <span class="amount">$35.00</span>
+                    </div>
+                    <div class="input-group">
+                      <input type="radio" id="radio1" name="shipping">
+                      <label for="radio1">Free Shippping</label>
+                    </div>
+                    <div class="input-group">
+                      <input type="radio" id="radio2" name="shipping">
+                      <label for="radio2">Local</label>
+                    </div>
+                    <div class="input-group">
+                      <input type="radio" id="radio3" name="shipping">
+                      <label for="radio3">Flat rate</label>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="order-total">
+                  <td>Total</td>
+                  <td class="order-total-amount" th:text="${totalPrice} + 'vnd'" ></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="order-payment-method">
+              <div class="single-payment">
+                <div class="input-group">
+                  <input type="radio" id="radio5" name="payment">
+                  <label for="radio5">Cash on delivery</label>
+                </div>
+                <p>Pay with cash upon delivery.</p>
+              </div>
+            </div>
+            <button type="submit" class="axil-btn btn-bg-primary checkout-btn">Process to Checkout</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- End Checkout Area  -->
+<script>
+  const apiKey = 'VW1r0Be7KrgyueYargJIbhINttj54To5kRCgM455'; // https://account.goong.io/keys
+  const addressInput = document.getElementById('address');
+  const suggestionsContainer = document.getElementById('suggestions');
+  const cityInput = document.getElementById('city');
+  const districtInput = document.getElementById('district');
+  const wardInput = document.getElementById('ward');
+  let sessionToken = crypto.randomUUID();
+
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  const debouncedSearch = debounce((query) => {
+    if (query.length < 2) {
+      suggestionsContainer.style.display = 'none';
+      return;
+    }
+
+    fetch(`https://rsapi.goong.io/Place/AutoComplete?api_key=${apiKey}&input=${encodeURIComponent(query)}&sessiontoken=${sessionToken}`)
+            .then(response => response.json())
+            .then(data => {
+              if (data.status === 'OK') {
+                suggestionsContainer.innerHTML = '';
+                suggestionsContainer.style.display = 'block';
+
+                data.predictions.forEach(prediction => {
+                  const div = document.createElement('div');
+                  div.className = 'suggestion-item';
+                  div.textContent = prediction.description;
+                  div.addEventListener('click', () => {
+                    addressInput.value = prediction.description;
+                    suggestionsContainer.style.display = 'none';
+
+                    // Tự động điền các trường địa chỉ từ compound
+                    if (prediction.compound) {
+                      cityInput.value = prediction.compound.province || '';
+                      districtInput.value = prediction.compound.district || '';
+                      wardInput.value = prediction.compound.commune || '';
+                    }
+                  });
+                  suggestionsContainer.appendChild(div);
+                });
+              }
+            })
+            .catch(error => console.error('Lỗi:', error));
+  }, 300);
+
+  addressInput.addEventListener('input', (e) => debouncedSearch(e.target.value));
+
+  document.addEventListener('click', function (e) {
+    if (!suggestionsContainer.contains(e.target) && e.target !== addressInput) {
+      suggestionsContainer.style.display = 'none';
+    }
+  });
+
+  document.getElementById('checkoutForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    sessionToken = crypto.randomUUID();
+    alert('Theo dõi mình để xem thêm các video công nghệ nhé!');
+  });
+</script>
+<!-- Modernizer JS -->
+<script th:src="@{/user/js/vendor/modernizr.min.js}"></script>
+<!-- jQuery JS -->
+<script th:src="@{/user/js/vendor/jquery.js}"></script>
+<!-- Bootstrap JS -->
+<script th:src="@{/user/js/vendor/popper.min.js}"></script>
+<script th:src="@{/user/js/vendor/bootstrap.min.js}"></script>
+<script th:src="@{/user/js/vendor/slick.min.js}"></script>
+<script th:src="@{/user/js/vendor/js.cookie.js}"></script>
+<!-- <script th:src="@{/js/vendor/jquery.style.switcher.js}"></script> -->
+<script th:src="@{/user/js/vendor/jquery-ui.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.ui.touch-punch.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.countdown.min.js}"></script>
+<script th:src="@{/user/js/vendor/sal.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/user/js/vendor/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/isotope.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/counterup.js}"></script>
+<script th:src="@{/user/js/vendor/waypoints.min.js}"></script>
+
+<!-- Main JS -->
+<script th:src="@{/user/js/main.js}"></script>
+</body>
+</html>

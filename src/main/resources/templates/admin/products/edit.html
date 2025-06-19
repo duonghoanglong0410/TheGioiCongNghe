@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sản phẩm</title>
+</head>
+<body>
+<div class="page-inner">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Sản phẩm</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="#">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Danh sách sản phẩm</a>
+            </li>
+
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+
+            <li class="nav-item">
+                <a href="#">Sửa sản phẩm</a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Sửa sản phẩm</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/admin/products/edit/{id}(id=${product.productId})}" th:object="${product}" method="post"
+                          enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label for="productName" class="mb-3"><b>Tên sản phẩm</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="productName"
+                                                id="productName"
+                                                th:field="*{productName}"
+                                                required
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description" class="mb-3"><b>Mô tả sản phẩm</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="description"
+                                                id="description"
+                                                th:field="*{description}"
+                                                required
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="price" class="mb-3"><b>Giá</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="price"
+                                                id="price"
+                                                th:field="*{price}"
+                                                required
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="stockQuantity" class="mb-3"><b>Số lượng</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="stockQuantity"
+                                                id="stockQuantity"
+                                                th:field="*{stockQuantity}"
+                                                required
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="metaTitle" class="mb-3"><b>Meta Title</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="metaTitle"
+                                                id="metaTitle"
+                                                th:field="*{metaTitle}"
+                                                required
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="metaDescription" class="mb-3"><b>Meta Description</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="metaDescription"
+                                                id="metaDescription"
+                                                th:field="*{metaDescription}"
+                                                required
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="parentCategory" class="mb-3"><b>Danh Mục</b></label>
+                                    <div class="input-group mb-3">
+                                        <select class="form-select" id="parentCategory" name="parentCategory">
+                                            <option value="">Không có</option>
+                                            <th:block th:each="parentCategory : ${parentCategories}">
+                                                <option th:value="${parentCategory.categoryId}"
+                                                        th:text="${parentCategory.categoryName}"
+                                                        th:selected="${parentCategory.categoryId == category.parentCategory?.categoryId}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label for="mainImage" class="mb-3"><b>Hình ảnh chính</b></label>
+                                    <div class="mb-3">
+                                        <!-- Hiển thị hình ảnh hiện tại nếu có -->
+                                        <div>
+                                            <img th:if="${product.imageUrl != null}" th:src="@{'/product_images/main/' + ${product.imageUrl}}"
+                                                 alt="Current Icon" width="100px" height="100px" />
+                                            <span th:if="${product.imageUrl == null}">Không có hình ảnh chính</span>
+                                        </div>
+                                        <!-- Input để tải lên hình ảnh mới -->
+                                        <input class="form-control" type="file" id="mainImage" name="mainImage">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="subImages" class="mb-3"><b>Hình ảnh phụ</b></label>
+                                    <div class="mb-3">
+                                        <!-- Hiển thị hình ảnh phụ hiện tại nếu có -->
+                                        <div>
+                                            <ul>
+                                                <li th:each="image : ${product.images}">
+                                                    <img th:src="@{'/product_images/extra/' + ${image.imageUrl}}" alt="Hình phụ" width="100"/>
+                                                    <input type="checkbox" name="removeImages" th:value="${image.imageId}"/> Xóa hình
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- Input để tải lên hình ảnh mới -->
+                                        <input class="form-control" type="file" id="extraImages" name="extraImages" multiple>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                        <span class="btn-label">
+                          <i class="fa fa-plus"></i>
+                        </span>
+                            Sửa sản phẩm
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

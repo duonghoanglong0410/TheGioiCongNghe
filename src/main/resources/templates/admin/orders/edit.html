@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách đơn hàng</title>
+</head>
+<body>
+<div class="page-inner">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Đơn hàng</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="#">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Cập nhật trạng thái</a>
+            </li>
+
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Cập nhật trạng thái đơn hàng</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/admin/order/edit/{id}(id=${order.orderId})}" th:object="${order}" method="post"
+                          enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label for="hoTen" class="mb-3"><b>Tên khách hàng</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="hoTen"
+                                                id="hoTen"
+                                                th:field="*{hoTen}"
+                                                readonly
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone" class="mb-3"><b>Phone</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="phone"
+                                                id="phone"
+                                                th:field="*{phone}"
+                                                readonly
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address" class="mb-3"><b>Address</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="address"
+                                                id="address"
+                                                th:field="*{address}"
+                                                readonly
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label for="totalPrice" class="mb-3"><b>Total Price</b></label>
+                                    <div class="input-group mb-3">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                name="totalPrice"
+                                                id="totalPrice"
+                                                th:field="*{totalPrice}"
+                                                readonly
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="orderStatus">Trạng thái giao hàng:</label>
+                                    <select
+                                            class="form-control"
+                                            id="orderStatus"
+                                            name="orderStatus"
+                                            th:field="*{orderStatus}"
+                                            required>
+                                        <option value="Đang xử lý">Đang xử lý</option>
+                                        <option value="Đang giao hàng">Đang giao hàng</option>
+                                        <option value="Đã giao hàng">Đã giao hàng</option>
+                                        <option value="Hoàn trả hàng">Hoàn trả hàng</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                        <span class="btn-label">
+                          <i class="fa fa-plus"></i>
+                        </span>
+                            Cập nhật trạng thái đơn hàng
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

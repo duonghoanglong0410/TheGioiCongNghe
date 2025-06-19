@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>TheGioiCongNghe.vn | Thanh toán thành công</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/user/css/vendor/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/flaticon/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/slick.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/slick-theme.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/sal.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/user/css/vendor/base.css}">
+    <link rel="stylesheet" th:href="@{/user/css/style.min.css}">
+
+    <style>
+        /* CSS cho phần thông báo thanh toán thành công */
+        .checkout-success {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+        }
+
+        .checkout-success h2 {
+            color: #28a745;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .checkout-success p {
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .order-actions {
+            margin-top: 20px;
+        }
+
+        .order-actions a {
+            padding: 10px 30px;
+            margin: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .order-actions .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .order-actions .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .order-actions .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+        }
+
+        .order-actions .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        /* Đảm bảo rằng các nút có khoảng cách hợp lý */
+        .order-actions a + a {
+            margin-left: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<div th:replace="/user/fragments/header :: header"></div>
+<!-- Start Checkout Area  -->
+<div class="checkout-area pt-100 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="checkout-success text-center">
+                    <h2>Thanh toán thành công!</h2>
+                    <p>Cảm ơn bạn đã mua hàng tại TheGioiCongNghe.vn. Đơn hàng của bạn đã được xử lý thành công.</p>
+                    <div class="order-actions">
+                        <a th:href="@{/shop}" class="btn btn-primary">Tiếp tục mua sắm</a>
+                        <a th:href="@{/my-account}" class="btn btn-secondary">Xem tài khoản của bạn</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Service-->
+<div th:replace="/user/fragments/services :: services"></div>
+<!---End Service--->
+<!-- End Checkout Area -->
+<!---Footer--->
+<div th:replace="/user/fragments/footer :: footer"></div>
+<!---End Footer--->
+<!-- Modernizer JS -->
+<script th:src="@{/user/js/vendor/modernizr.min.js}"></script>
+<!-- jQuery JS -->
+<script th:src="@{/user/js/vendor/jquery.js}"></script>
+<!-- Bootstrap JS -->
+<script th:src="@{/user/js/vendor/popper.min.js}"></script>
+<script th:src="@{/user/js/vendor/bootstrap.min.js}"></script>
+<script th:src="@{/user/js/vendor/slick.min.js}"></script>
+<script th:src="@{/user/js/vendor/js.cookie.js}"></script>
+<!-- <script th:src="@{/js/vendor/jquery.style.switcher.js}"></script> -->
+<script th:src="@{/user/js/vendor/jquery-ui.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.ui.touch-punch.min.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.countdown.min.js}"></script>
+<script th:src="@{/user/js/vendor/sal.js}"></script>
+<script th:src="@{/user/js/vendor/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/user/js/vendor/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/isotope.pkgd.min.js}"></script>
+<script th:src="@{/user/js/vendor/counterup.js}"></script>
+<script th:src="@{/user/js/vendor/waypoints.min.js}"></script>
+
+<!-- Main JS -->
+<script th:src="@{/user/js/main.js}"></script>
+</body>
+</html>

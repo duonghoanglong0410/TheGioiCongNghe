@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Admin Dashboard</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+
+    <link rel="icon" th:href="@{/admin/img/kaiadmin/favicon.ico}" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <script th:src="@{/admin/js/plugin/webfont/webfont.min.js}"></script>
+    <script>
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["/admin/css/fonts.min.css"], // Sửa lại đường dẫn nếu cần
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" th:href="@{/admin/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/admin/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/admin/css/kaiadmin.min.css}" />
+    <link rel="stylesheet" th:href="@{/admin/css/demo.css}" /> <!-- CSS Just for demo purpose, don't include it in your project -->
+
+</head>
+<body th:fragment="main(content)">
+
+<div class="wrapper">
+    <div th:replace="/admin/fragments/sidebar :: sidebar"></div>
+
+    <div class="main-panel">
+        <header th:replace="/admin/fragments/header :: header"></header>
+
+        <div class="container">
+            <th:block th:replace="${content}"></th:block>
+        </div>
+
+        <div th:replace="/admin/fragments/footer :: footer"></div>
+    </div>
+</div>
+<!-- Core JS Files -->
+<script th:src="@{/admin/js/core/jquery-3.7.1.min.js}"></script>
+<script th:src="@{/admin/js/core/popper.min.js}"></script>
+<script th:src="@{/admin/js/core/bootstrap.min.js}"></script>
+
+<!-- jQuery Scrollbar -->
+<script th:src="@{/admin/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+
+<!-- Chart JS -->
+<script th:src="@{/admin/js/plugin/chart.js/chart.min.js}"></script>
+
+<!-- jQuery Sparkline -->
+<script th:src="@{/admin/js/plugin/jquery.sparkline/jquery.sparkline.min.js}"></script>
+
+<!-- Chart Circle -->
+<script th:src="@{/admin/js/plugin/chart-circle/circles.min.js}"></script>
+
+<!-- Datatables -->
+<script th:src="@{/admin/js/plugin/datatables/datatables.min.js}"></script>
+
+<!-- Bootstrap Notify -->
+<script th:src="@{/admin/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+
+<!-- jQuery Vector Maps -->
+<script th:src="@{/admin/js/plugin/jsvectormap/jsvectormap.min.js}"></script>
+<script th:src="@{/admin/js/plugin/jsvectormap/world.js}"></script>
+
+<!-- Sweet Alert -->
+<script th:src="@{/admin/js/plugin/sweetalert/sweetalert.min.js}"></script>
+
+<!-- Kaiadmin JS -->
+<script th:src="@{/admin/js/kaiadmin.min.js}"></script>
+
+<!-- Kaiadmin DEMO methods, don't include it in your project! -->
+<script th:src="@{/admin/js/setting-demo.js}"></script>
+<script th:src="@{/admin/js/demo.js}"></script>
+
+
+<!-- Place the first <script> tag in your HTML's <head> -->
+<script src="https://cdn.tiny.cloud/1/ur61592cgo9fnonucnrh2qcf4by9u46tayl9y7hryf2rwgcp/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
+<!-- Place the following <script> and <textarea> tags your HTML's <body> -->
+
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        plugins: [
+            // Core editing features
+            'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+            // Your account includes a free trial of TinyMCE premium features
+            // Try the most popular premium features until Dec 5, 2024:
+            'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
+            // Early access to document converters
+            'importword', 'exportword', 'exportpdf'
+        ],
+        setup: function (editor) {
+            editor.on('change', function () {
+                editor.save(); // Đồng bộ nội dung vào textarea
+            });
+        },
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+        mergetags_list: [
+            { value: 'First.Name', title: 'First Name' },
+            { value: 'Email', title: 'Email' },
+        ],
+        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+        exportpdf_converter_options: { 'format': 'Letter', 'margin_top': '1in', 'margin_right': '1in', 'margin_bottom': '1in', 'margin_left': '1in' },
+        exportword_converter_options: { 'document': { 'size': 'Letter' } },
+        importword_converter_options: { 'formatting': { 'styles': 'inline', 'resets': 'inline',	'defaults': 'inline', } },
+    });
+</script>
+
+<script>
+    $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#177dff",
+        fillColor: "rgba(23, 125, 255, 0.14)",
+    });
+
+    $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#f3545d",
+        fillColor: "rgba(243, 84, 93, .14)",
+    });
+
+    $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#ffa534",
+        fillColor: "rgba(255, 165, 52, .14)",
+    });
+</script>
+</body>
+</html>
